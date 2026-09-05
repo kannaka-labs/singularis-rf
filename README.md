@@ -31,7 +31,7 @@ pip install -e .[dev] && pytest                 # 136 tests: cross-implementatio
 
 # On skywave (Docker, no host packages needed):
 docker compose -f deploy/compose.yml up -d --build          # RTL-SDR on 144.390 MHz (APRS), NATS from ~/.kannaka-nats.env
-docker run --rm singularis-rf:latest ./scripts/selftest.sh  # prove the audio→message chain without a radio
+docker run --rm --entrypoint ./scripts/selftest.sh --env-file ~/.kannaka-nats.env singularis-rf:latest  # prove the audio→message chain without a radio
 ```
 
 Environment: `RF_STATION` (identifier in `RF.station.<id>`), `RF_AUDIO` (`rtl` | `wav` | `none`), `RF_FREQ` (`144.390M`), `RF_GAIN`, `RF_SOURCE` (`kiss` | `js8call` | `stdin`), `KISS_ADDR`, `JS8CALL_ADDR`, `KANNAKA_NATS_URL` / `NATS_URL`, `NATS_USER`, `NATS_PASSWORD`, `RF_LOG`, `RF_SPEC` (path to a newer spec JSON).

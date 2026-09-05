@@ -17,6 +17,11 @@ COPY deploy/direwolf.conf deploy/run-rx.sh ./deploy/
 COPY scripts ./scripts
 RUN chmod +x deploy/run-rx.sh scripts/*.sh && python3 -m pytest -q tests
 
+# Direwolf refuses to be comfortable as root, and it is right; run as an ordinary user
+# who is in the plugdev group so the RTL-SDR (/dev/bus/usb) is readable.
+RUN useradd -m -u 1000 -G plugdev rf && mkdir -p /data && chown -R rf:rf /data /app
+USER rf
+
 # KISS TCP from Direwolf stays inside the container; nothing is exposed by default.
 ENV RF_SOURCE=kiss KISS_ADDR=127.0.0.1:8001 RF_LOG=/data/heard.jsonl
 VOLUME ["/data"]

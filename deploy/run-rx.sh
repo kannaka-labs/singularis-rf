@@ -12,11 +12,11 @@ RF_GAIN="${RF_GAIN:-40}"
 RF_PPM="${RF_PPM:-0}"
 mkdir -p /data/direwolf
 
-start_direwolf() {
-  # -t 0 no colours, -q hd quiet heard/decoded chatter, -r sample rate, - = audio from stdin
-  direwolf -c /app/deploy/direwolf.conf -r 22050 -t 0 -q hd - &
-  DW_PID=$!
-}
+# Direwolf: -t 0 no colours, -q hd quiet heard/decoded chatter, -r sample rate, '-' = raw audio on stdin.
+# NOTE: run direwolf as the last stage of a backgrounded pipeline and take $! — a helper function
+# inside the pipeline would set its PID in a subshell the parent never sees.
+DW="direwolf -c /app/deploy/direwolf.conf -r 22050 -t 0 -q hd -"
+DW_PID=""
 
 case "$RF_AUDIO" in
   rtl)
@@ -24,13 +24,15 @@ case "$RF_AUDIO" in
       echo "[run-rx] no RTL-SDR dongle detected (rtl_test failed); set RF_AUDIO=none or attach the device" >&2
     fi
     echo "[run-rx] rtl_fm ${RF_FREQ} → direwolf" >&2
-    rtl_fm -f "$RF_FREQ" -M fm -s 22050 -g "$RF_GAIN" -p "$RF_PPM" -E dc - | start_direwolf
+    rtl_fm -f "$RF_FREQ" -M fm -s 22050 -g "$RF_GAIN" -p "$RF_PPM" -E dc - | $DW &
+    DW_PID=$!
     ;;
   wav)
     : "${RF_WAV:?RF_AUDIO=wav needs RF_WAV}"
     echo "[run-rx] replaying $RF_WAV → direwolf" >&2
     # Give the station a moment to connect to KISS before audio starts flowing.
-    ( sleep 3; sox "$RF_WAV" -t raw -r 22050 -e signed -b 16 -c 1 - ) | start_direwolf
+    ( sleep 3; sox "$RF_WAV" -t raw -r 22050 -e signed -b 16 -c 1 - ) | $DW &
+    DW_PID=$!
     ;;
   none)
     echo "[run-rx] no audio chain; station source=${RF_SOURCE}" >&2
