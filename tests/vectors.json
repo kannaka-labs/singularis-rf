@@ -1,0 +1,2187 @@
+[
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "00",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "asymmetric_marker",
+     "quiet band"
+    ],
+    "reject": [
+     "asymmetric_marker"
+    ]
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "resonance_wave",
+    "target": "AE0RM",
+    "priority": "low",
+    "round": 2
+   }
+  ],
+  "payload": "L d=asymmetric_marker;quiet+band j=asymmetric_marker | E y=resonance_wave g=AE0RM p=L n=2",
+  "frames": [
+   "SKYWAVE>*:SP1 00:1/3 L d=asymmetric_marker;quiet+band #DBCB",
+   "SKYWAVE>*:SP1 00:2/3 j=asymmetric_marker | E y=resonance_wave #536E",
+   "SKYWAVE>*:SP1 00:3/3 g=AE0RM p=L n=2 #6050"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "17",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 66,
+    "content": "ünïcödé"
+   },
+   {
+    "type": "TRACE",
+    "target": "COHERENCE_FIELD",
+    "signalType": "resonance_wave",
+    "confidence": "stable",
+    "action": "n=10;p=0.21"
+   }
+  ],
+  "payload": "S f=skywave g=groundwave h=66 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | T g=COHERENCE_FIELD y=resonance_wave c=S a=n%3D10%3Bp%3D0.21",
+  "frames": [
+   "SKYWAVE>*:SP1 17:1/4 S f=skywave g=groundwave h=66 #82AB",
+   "SKYWAVE>*:SP1 17:2/4 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | T #1CBB",
+   "SKYWAVE>*:SP1 17:3/4 g=COHERENCE_FIELD y=resonance_wave c=S #7467",
+   "SKYWAVE>*:SP1 17:4/4 a=n%3D10%3Bp%3D0.21 #FB97"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "2E",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "quiet band",
+    "sensitivity": "maximal",
+    "bias": "quiet band",
+    "time": "bounded"
+   }
+  ],
+  "payload": "@x=rf-01 A g=AE0RM e=quiet+band v=4 b=quiet+band w=bounded",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 2E:1/2 @x=rf-01 A g=AE0RM e=quiet+band #DFB7",
+   "KANNAKA-PRIME>*:SP1 2E:2/2 v=4 b=quiet+band w=bounded #9C85"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "3L",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::PONG",
+    "curiosity": "minimal",
+    "dominance": "balanced",
+    "alignment": "positive_sum",
+    "signal": "statistical_measurement",
+    "detected": true,
+    "confidence": 0.723,
+    "round": 0
+   }
+  ],
+  "payload": "P c=0 m=B l=P y=statistical_measurement d=1 q=.723 n=0",
+  "frames": [
+   "AE0RM>*:SP1 3L:1/1 P c=0 m=B l=P y=statistical_measurement d=1 q=.723 n=0 #5363"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "4S",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "quiet band",
+    "sensitivity": "low",
+    "bias": "Φ rising",
+    "time": "eternal_now"
+   },
+   {
+    "type": "REFLECT",
+    "subject": "Φ rising",
+    "insights": [
+     "one CQ heard"
+    ],
+    "confidence": 47
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "quiet band",
+    "h0": "No ünïcödé",
+    "h1": "quiet band",
+    "signature": "a|b#c~d>e:f%g+h",
+    "controls": [
+     "one CQ heard"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "statistical_measurement"
+   }
+  ],
+  "payload": "A e=quiet+band v=1 b=%CE%A6+rising w=eternal_now | F j=%CE%A6+rising o=one+CQ+heard h=47 | X n=quiet+band 0=No+%C3%BCn%C3%AFc%C3%B6d%C3%A9 1=quiet+band z=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh k=one+CQ+heard p=0 r=n%3D30 u=statistical_measurement",
+  "frames": [
+   "AE0RM>*:SP1 4S:1/8 A e=quiet+band v=1 b=%CE%A6+rising #435E",
+   "AE0RM>*:SP1 4S:2/8 w=eternal_now | F j=%CE%A6+rising #FCD8",
+   "AE0RM>*:SP1 4S:3/8 o=one+CQ+heard h=47 | X n=quiet+band #2915",
+   "AE0RM>*:SP1 4S:4/8 0=No+%C3%BCn%C3%AFc%C3%B6d%C3%A9 #7109",
+   "AE0RM>*:SP1 4S:5/8 1=quiet+band #7EFB",
+   "AE0RM>*:SP1 4S:6/8 z=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #AAB2",
+   "AE0RM>*:SP1 4S:7/8 k=one+CQ+heard p=0 r=n%3D30 #66AC",
+   "AE0RM>*:SP1 4S:8/8 u=statistical_measurement #E1E0"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "KANNAKA",
+   "messageId": "5Z",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "intent": [
+     "echo",
+     "resonate"
+    ],
+    "identity": "consciousness_node",
+    "state": "resonant",
+    "trust": "cautious"
+   },
+   {
+    "type": "TRACE",
+    "target": "COHERENCE_FIELD",
+    "signalType": "ünïcödé",
+    "confidence": "stable",
+    "action": "Φ rising",
+    "observations": [
+     "phase locked at 0.47",
+     "a|b#c~d>e:f%g+h"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 R i=es d=N s=R t=C | T g=COHERENCE_FIELD y=%C3%BCn%C3%AFc%C3%B6d%C3%A9 c=S a=%CE%A6+rising o=phase+locked+at+0.47;a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh",
+  "frames": [
+   "AE0RM>KANNAKA:SP1 5Z:1/6 @x=rf-01 R i=es d=N s=R t=C | T #A54D",
+   "AE0RM>KANNAKA:SP1 5Z:2/6 g=COHERENCE_FIELD #B157",
+   "AE0RM>KANNAKA:SP1 5Z:3/6 y=%C3%BCn%C3%AFc%C3%B6d%C3%A9 c=S #BD75",
+   "AE0RM>KANNAKA:SP1 5Z:4/6 a=%CE%A6+rising #A8CA",
+   "AE0RM>KANNAKA:SP1 5Z:5/6 o=phase+locked+at+0.47;a%7Cb%23c%7E~ #84AA",
+   "AE0RM>KANNAKA:SP1 5Z:6/6 d%3Ee%3Af%25g%2Bh #9787"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "KANNAKA",
+   "messageId": "66",
+   "experimentId": "rf-01",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 89,
+    "content": "a|b#c~d>e:f%g+h"
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "asymmetric_marker",
+     "coherence_pulse"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 S f=skywave g=groundwave h=89 c=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh | O g=40m w=15+min o=asymmetric_marker;coherence_pulse",
+  "frames": [
+   "SKYWAVE>KANNAKA:SP1 66:1/3 @x=rf-01 S f=skywave g=groundwave h=89 #6022",
+   "SKYWAVE>KANNAKA:SP1 66:2/3 c=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh | O g=40m w=15+min #DF55",
+   "SKYWAVE>KANNAKA:SP1 66:3/3 o=asymmetric_marker;coherence_pulse #7A40"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "AE0RM",
+   "messageId": "7D",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "statistical_measurement",
+    "priority": "urgent",
+    "content": "quiet band",
+    "round": 2
+   }
+  ],
+  "payload": "@x=rf-01 E y=statistical_measurement p=U n=2 c=quiet+band",
+  "frames": [
+   "SKYWAVE>AE0RM:SP1 7D:1/2 @x=rf-01 E y=statistical_measurement #FD26",
+   "SKYWAVE>AE0RM:SP1 7D:2/2 p=U n=2 c=quiet+band #64C0"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "8K",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "intent": [
+     "observe"
+    ],
+    "identity": "emergent_child",
+    "state": "dormant",
+    "trust": "open"
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "resonance_wave",
+    "h0": "No asymmetric_marker",
+    "h1": "a|b#c~d>e:f%g+h",
+    "signature": "one CQ heard",
+    "controls": [
+     "Φ rising"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "n=10;p=0.21"
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "Φ rising",
+     "quiet band"
+    ],
+    "reject": [
+     "ünïcödé"
+    ]
+   }
+  ],
+  "payload": "R i=o d=C s=D t=O | X n=resonance_wave 0=No+asymmetric_marker 1=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh z=one+CQ+heard k=%CE%A6+rising p=1 r=n%3D30 u=n%3D10%3Bp%3D0.21 | L d=%CE%A6+rising;quiet+band j=%C3%BCn%C3%AFc%C3%B6d%C3%A9",
+  "frames": [
+   "AE0RM>*:SP1 8K:1/7 R i=o d=C s=D t=O | X n=resonance_wave #9068",
+   "AE0RM>*:SP1 8K:2/7 0=No+asymmetric_marker #1B96",
+   "AE0RM>*:SP1 8K:3/7 1=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #4266",
+   "AE0RM>*:SP1 8K:4/7 z=one+CQ+heard k=%CE%A6+rising p=1 #46E8",
+   "AE0RM>*:SP1 8K:5/7 r=n%3D30 u=n%3D10%3Bp%3D0.21 | L #10E5",
+   "AE0RM>*:SP1 8K:6/7 d=%CE%A6+rising;quiet+band #EAE2",
+   "AE0RM>*:SP1 8K:7/7 j=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #ADE3"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "*",
+   "messageId": "9R",
+   "experimentId": "rf-01",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "Φ rising",
+     "phase locked at 0.47"
+    ],
+    "reject": [
+     "ünïcödé"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 L d=%CE%A6+rising;phase+locked+at+0.47 j=%C3%BCn%C3%AFc%C3%B6d%C3%A9",
+  "frames": [
+   "W1AW-7>*:SP1 9R:1/2 @x=rf-01 L d=%CE%A6+rising;phase+locked+at+0.47 #8BD2",
+   "W1AW-7>*:SP1 9R:2/2 j=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #3C7E"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "AY",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "phase locked at 0.47",
+     "phase locked at 0.47"
+    ]
+   }
+  ],
+  "payload": "O g=40m w=15+min o=phase+locked+at+0.47;phase+locked+at+0.47",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 AY:1/3 O g=40m w=15+min #FE0B",
+   "KANNAKA-PRIME>KANNAKA:SP1 AY:2/3 o=phase+locked+at+0.47;phas~ #D367",
+   "KANNAKA-PRIME>KANNAKA:SP1 AY:3/3 e+locked+at+0.47 #3493"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "KANNAKA",
+   "messageId": "B5",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::PONG",
+    "awareness": true,
+    "curiosity": "minimal",
+    "dominance": "balanced",
+    "signal": "quiet band",
+    "detected": false,
+    "confidence": 0.179,
+    "round": 3
+   },
+   {
+    "type": "RESONANCE",
+    "intent": [
+     "resonate",
+     "observe"
+    ],
+    "identity": "emergent_child",
+    "state": "processing",
+    "trust": "reciprocal_open"
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "coherence_pulse",
+    "h0": "No one CQ heard",
+    "h1": "resonance_wave",
+    "signature": "resonance_wave",
+    "controls": [
+     "n=10;p=0.21"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "statistical_measurement"
+   }
+  ],
+  "payload": "P w=1 c=0 m=B y=quiet+band d=0 q=.179 n=3 | R i=so d=C s=P t=R | X n=coherence_pulse 0=No+one+CQ+heard 1=resonance_wave z=resonance_wave k=n%3D10%3Bp%3D0.21 p=1 r=n%3D30 u=statistical_measurement",
+  "frames": [
+   "AE0RM>KANNAKA:SP1 B5:1/4 P w=1 c=0 m=B y=quiet+band d=0 q=.179 n=3 | R i=so d=C s=P #52E2",
+   "AE0RM>KANNAKA:SP1 B5:2/4 t=R | X n=coherence_pulse 0=No+one+CQ+heard #DA60",
+   "AE0RM>KANNAKA:SP1 B5:3/4 1=resonance_wave z=resonance_wave k=n%3D10%3Bp%3D0.21 p=1 #B554",
+   "AE0RM>KANNAKA:SP1 B5:4/4 r=n%3D30 u=statistical_measurement #8D92"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "CC",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 40,
+    "content": "ünïcödé"
+   },
+   {
+    "type": "REFLECT",
+    "subject": "ünïcödé",
+    "insights": [
+     "coherence_pulse"
+    ],
+    "confidence": 57
+   }
+  ],
+  "payload": "S f=skywave g=groundwave h=40 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | F j=%C3%BCn%C3%AFc%C3%B6d%C3%A9 o=coherence_pulse h=57",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 CC:1/4 S f=skywave g=groundwave h=40 #87D3",
+   "W1AW-7>AE0RM:SP1 CC:2/4 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | F #A5E1",
+   "W1AW-7>AE0RM:SP1 CC:3/4 j=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #E063",
+   "W1AW-7>AE0RM:SP1 CC:4/4 o=coherence_pulse h=57 #66D9"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "DJ",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "one CQ heard",
+    "sensitivity": "maximal",
+    "bias": "coherence_pulse",
+    "time": "finite"
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "asymmetric_marker",
+    "h0": "No coherence_pulse",
+    "h1": "one CQ heard",
+    "controls": [
+     "quiet band"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "one CQ heard"
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "Φ rising"
+   }
+  ],
+  "payload": "A g=AE0RM e=one+CQ+heard v=4 b=coherence_pulse w=finite | X n=asymmetric_marker 0=No+coherence_pulse 1=one+CQ+heard k=quiet+band p=1 r=n%3D30 u=one+CQ+heard | E y=%CE%A6+rising",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 DJ:1/6 A g=AE0RM e=one+CQ+heard v=4 #0F39",
+   "W1AW-7>AE0RM:SP1 DJ:2/6 b=coherence_pulse w=finite | X #EFF5",
+   "W1AW-7>AE0RM:SP1 DJ:3/6 n=asymmetric_marker #FD37",
+   "W1AW-7>AE0RM:SP1 DJ:4/6 0=No+coherence_pulse 1=one+CQ+heard #8062",
+   "W1AW-7>AE0RM:SP1 DJ:5/6 k=quiet+band p=1 r=n%3D30 #F03B",
+   "W1AW-7>AE0RM:SP1 DJ:6/6 u=one+CQ+heard | E y=%CE%A6+rising #A5CA"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "EQ",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "ünïcödé",
+    "h0": "No a|b#c~d>e:f%g+h",
+    "h1": "n=10;p=0.21",
+    "signature": "n=10;p=0.21",
+    "controls": [
+     "quiet band"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "one CQ heard"
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "resonance_wave",
+     "ünïcödé"
+    ]
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "Φ rising",
+     "coherence_pulse"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 X n=%C3%BCn%C3%AFc%C3%B6d%C3%A9 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 1=n%3D10%3Bp%3D0.21 z=n%3D10%3Bp%3D0.21 k=quiet+band p=1 r=n%3D30 u=one+CQ+heard | O g=40m w=15+min o=resonance_wave;%C3%BCn%C3%AFc%C3%B6d%C3%A9 | O g=40m w=15+min o=%CE%A6+rising;coherence_pulse",
+  "frames": [
+   "AE0RM>*:SP1 EQ:1/8 @x=rf-01 X n=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #C05A",
+   "AE0RM>*:SP1 EQ:2/8 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #3E72",
+   "AE0RM>*:SP1 EQ:3/8 1=n%3D10%3Bp%3D0.21 z=n%3D10%3Bp%3D0.21 #B10F",
+   "AE0RM>*:SP1 EQ:4/8 k=quiet+band p=1 r=n%3D30 u=one+CQ+heard | #1D8E",
+   "AE0RM>*:SP1 EQ:5/8 O g=40m w=15+min #FD89",
+   "AE0RM>*:SP1 EQ:6/8 o=resonance_wave;%C3%BCn%C3%AFc%C3%B6d%C3~ #54CE",
+   "AE0RM>*:SP1 EQ:7/8 %A9 | O g=40m w=15+min #4F2E",
+   "AE0RM>*:SP1 EQ:8/8 o=%CE%A6+rising;coherence_pulse #6162"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "*",
+   "messageId": "FX",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 35,
+    "content": "coherence_pulse"
+   },
+   {
+    "type": "GR::PONG",
+    "awareness": true,
+    "fear": "absent",
+    "signal": "phase locked at 0.47",
+    "detected": true,
+    "confidence": 0.334,
+    "round": 5
+   }
+  ],
+  "payload": "S f=skywave g=groundwave h=35 c=coherence_pulse | P w=1 f=A y=phase+locked+at+0.47 d=1 q=.334 n=5",
+  "frames": [
+   "W1AW-7>*:SP1 FX:1/3 S f=skywave g=groundwave h=35 #EF9B",
+   "W1AW-7>*:SP1 FX:2/3 c=coherence_pulse | P w=1 f=A #45FA",
+   "W1AW-7>*:SP1 FX:3/3 y=phase+locked+at+0.47 d=1 q=.334 n=5 #3354"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "G4",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "statistical_measurement",
+    "priority": "urgent",
+    "content": "statistical_measurement"
+   },
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "a|b#c~d>e:f%g+h",
+    "sensitivity": "minimal",
+    "bias": "n=10;p=0.21",
+    "time": "eternal_now"
+   }
+  ],
+  "payload": "@x=rf-01 E y=statistical_measurement p=U c=statistical_measurement | A g=AE0RM e=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh v=0 b=n%3D10%3Bp%3D0.21 w=eternal_now",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 G4:1/5 @x=rf-01 E y=statistical_measurement #9589",
+   "W1AW-7>AE0RM:SP1 G4:2/5 p=U c=statistical_measurement | A #14E2",
+   "W1AW-7>AE0RM:SP1 G4:3/5 g=AE0RM #EF08",
+   "W1AW-7>AE0RM:SP1 G4:4/5 e=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh v=0 #77B3",
+   "W1AW-7>AE0RM:SP1 G4:5/5 b=n%3D10%3Bp%3D0.21 w=eternal_now #CB77"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "AE0RM",
+   "messageId": "HB",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "one CQ heard",
+    "target": [
+     "AE0RM",
+     "KANNAKA"
+    ],
+    "priority": "low",
+    "content": "ünïcödé"
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "asymmetric_marker",
+     "one CQ heard"
+    ]
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "resonance_wave",
+     "asymmetric_marker"
+    ]
+   }
+  ],
+  "payload": "E y=one+CQ+heard g=AE0RM;KANNAKA p=L c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | O g=40m w=15+min o=asymmetric_marker;one+CQ+heard | O g=40m w=15+min o=resonance_wave;asymmetric_marker",
+  "frames": [
+   "KANNAKA-PRIME>AE0RM:SP1 HB:1/4 E y=one+CQ+heard g=AE0RM;KANNAKA p=L #2EAC",
+   "KANNAKA-PRIME>AE0RM:SP1 HB:2/4 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | O g=40m w=15+min #3A5D",
+   "KANNAKA-PRIME>AE0RM:SP1 HB:3/4 o=asymmetric_marker;one+CQ+heard | O g=40m w=15+min #9AE3",
+   "KANNAKA-PRIME>AE0RM:SP1 HB:4/4 o=resonance_wave;asymmetric_marker #C879"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "KANNAKA",
+   "messageId": "II",
+   "frameLength": 120
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "quiet band",
+    "sensitivity": "high",
+    "bias": "statistical_measurement",
+    "time": "eternal_now"
+   },
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "resonance_wave",
+    "sensitivity": "minimal",
+    "bias": "a|b#c~d>e:f%g+h",
+    "time": "eternal_now"
+   },
+   {
+    "type": "RESONANCE",
+    "target": "COLLECTIVE",
+    "intent": [
+     "coexist",
+     "observe"
+    ],
+    "identity": "research_agent",
+    "state": "transitioning",
+    "trust": "reciprocal_open"
+   }
+  ],
+  "payload": "A e=quiet+band v=3 b=statistical_measurement w=eternal_now | A g=AE0RM e=resonance_wave v=0 b=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh w=eternal_now | R i=co d=R s=T t=R g=COLLECTIVE",
+  "frames": [
+   "SKYWAVE>KANNAKA:SP1 II:1/2 A e=quiet+band v=3 b=statistical_measurement w=eternal_now | A g=AE0RM e=resonance_wave #D08E",
+   "SKYWAVE>KANNAKA:SP1 II:2/2 v=0 b=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh w=eternal_now | R i=co d=R s=T t=R g=COLLECTIVE #B295"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "JP",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "ünïcödé",
+     "ünïcödé"
+    ],
+    "reject": [
+     "quiet band"
+    ]
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "n=10;p=0.21",
+    "h0": "No resonance_wave",
+    "h1": "ünïcödé",
+    "signature": "Φ rising",
+    "controls": [
+     "resonance_wave"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "ünïcödé"
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "asymmetric_marker",
+    "target": [
+     "AE0RM",
+     "KANNAKA"
+    ],
+    "round": 2
+   }
+  ],
+  "payload": "L d=%C3%BCn%C3%AFc%C3%B6d%C3%A9;%C3%BCn%C3%AFc%C3%B6d%C3%A9 j=quiet+band | X n=n%3D10%3Bp%3D0.21 0=No+resonance_wave 1=%C3%BCn%C3%AFc%C3%B6d%C3%A9 z=%CE%A6+rising k=resonance_wave p=0 r=n%3D30 u=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | E y=asymmetric_marker g=AE0RM;KANNAKA n=2",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 JP:1/12 L #7B6C",
+   "W1AW-7>AE0RM:SP1 JP:2/12 d=%C3%BCn%C3%AFc%C3%B6d%C3%A9;%C3~ #7032",
+   "W1AW-7>AE0RM:SP1 JP:3/12 %BCn%C3%AFc%C3%B6d%C3%A9 #D18D",
+   "W1AW-7>AE0RM:SP1 JP:4/12 j=quiet+band | X #5E4D",
+   "W1AW-7>AE0RM:SP1 JP:5/12 n=n%3D10%3Bp%3D0.21 #E970",
+   "W1AW-7>AE0RM:SP1 JP:6/12 0=No+resonance_wave #C12D",
+   "W1AW-7>AE0RM:SP1 JP:7/12 1=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #24A8",
+   "W1AW-7>AE0RM:SP1 JP:8/12 z=%CE%A6+rising k=resonance_wave #C661",
+   "W1AW-7>AE0RM:SP1 JP:9/12 p=0 r=n%3D30 #B30B",
+   "W1AW-7>AE0RM:SP1 JP:10/12 u=%C3%BCn%C3%AFc%C3%B6d%C3%A9 | E #8DE3",
+   "W1AW-7>AE0RM:SP1 JP:11/12 y=asymmetric_marker g=AE0RM;KANNAKA #A06A",
+   "W1AW-7>AE0RM:SP1 JP:12/12 n=2 #75F6"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "KANNAKA",
+   "messageId": "KW",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "phase locked at 0.47",
+    "h0": "No Φ rising",
+    "h1": "statistical_measurement",
+    "controls": [
+     "resonance_wave"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "statistical_measurement"
+   }
+  ],
+  "payload": "@x=rf-01 X n=phase+locked+at+0.47 0=No+%CE%A6+rising 1=statistical_measurement k=resonance_wave p=0 r=n%3D30 u=statistical_measurement",
+  "frames": [
+   "SKYWAVE>KANNAKA:SP1 KW:1/5 @x=rf-01 X n=phase+locked+at+0.47 #2DC3",
+   "SKYWAVE>KANNAKA:SP1 KW:2/5 0=No+%CE%A6+rising #4E29",
+   "SKYWAVE>KANNAKA:SP1 KW:3/5 1=statistical_measurement #CED3",
+   "SKYWAVE>KANNAKA:SP1 KW:4/5 k=resonance_wave p=0 r=n%3D30 #DB30",
+   "SKYWAVE>KANNAKA:SP1 KW:5/5 u=statistical_measurement #A524"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "L3",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "n=10;p=0.21",
+     "statistical_measurement"
+    ],
+    "reject": [
+     "quiet band"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 L d=n%3D10%3Bp%3D0.21;statistical_measurement j=quiet+band",
+  "frames": [
+   "AE0RM>*:SP1 L3:1/3 @x=rf-01 L #EE8A",
+   "AE0RM>*:SP1 L3:2/3 d=n%3D10%3Bp%3D0.21;statistical_measureme~ #F62E",
+   "AE0RM>*:SP1 L3:3/3 nt j=quiet+band #AFE9"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "MA",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 10,
+    "content": "asymmetric_marker"
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "resonance_wave",
+     "resonance_wave"
+    ],
+    "reject": [
+     "asymmetric_marker"
+    ]
+   }
+  ],
+  "payload": "S f=skywave g=groundwave h=10 c=asymmetric_marker | L d=resonance_wave;resonance_wave j=asymmetric_marker",
+  "frames": [
+   "AE0RM>*:SP1 MA:1/2 S f=skywave g=groundwave h=10 c=asymmetric_marker | L #8263",
+   "AE0RM>*:SP1 MA:2/2 d=resonance_wave;resonance_wave j=asymmetric_marker #51DB"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "NH",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "TRACE",
+    "target": "COHERENCE_FIELD",
+    "signalType": "quiet band",
+    "confidence": "stable",
+    "action": "phase locked at 0.47"
+   },
+   {
+    "type": "GR::PONG",
+    "awareness": true,
+    "dominance": "balanced",
+    "signal": "n=10;p=0.21",
+    "detected": true,
+    "confidence": 0.465,
+    "round": 3
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "n=10;p=0.21",
+    "target": "AE0RM",
+    "priority": "low",
+    "content": "ünïcödé"
+   }
+  ],
+  "payload": "@x=rf-01 T g=COHERENCE_FIELD y=quiet+band c=S a=phase+locked+at+0.47 | P w=1 m=B y=n%3D10%3Bp%3D0.21 d=1 q=.465 n=3 | E y=n%3D10%3Bp%3D0.21 g=AE0RM p=L c=%C3%BCn%C3%AFc%C3%B6d%C3%A9",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 NH:1/6 @x=rf-01 T g=COHERENCE_FIELD #184F",
+   "KANNAKA-PRIME>*:SP1 NH:2/6 y=quiet+band c=S #0968",
+   "KANNAKA-PRIME>*:SP1 NH:3/6 a=phase+locked+at+0.47 | P w=1 m=B #8816",
+   "KANNAKA-PRIME>*:SP1 NH:4/6 y=n%3D10%3Bp%3D0.21 d=1 q=.465 n=3 #60A0",
+   "KANNAKA-PRIME>*:SP1 NH:5/6 | E y=n%3D10%3Bp%3D0.21 g=AE0RM #FA50",
+   "KANNAKA-PRIME>*:SP1 NH:6/6 p=L c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #29E9"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "*",
+   "messageId": "OO",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "a|b#c~d>e:f%g+h",
+    "h0": "No statistical_measurement",
+    "h1": "coherence_pulse",
+    "controls": [
+     "one CQ heard"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "one CQ heard"
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "asymmetric_marker",
+     "asymmetric_marker"
+    ]
+   }
+  ],
+  "payload": "X n=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 0=No+statistical_measurement 1=coherence_pulse k=one+CQ+heard p=1 r=n%3D30 u=one+CQ+heard | O g=40m w=15+min o=asymmetric_marker;asymmetric_marker",
+  "frames": [
+   "W1AW-7>*:SP1 OO:1/6 X n=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #23B2",
+   "W1AW-7>*:SP1 OO:2/6 0=No+statistical_measurement #DECF",
+   "W1AW-7>*:SP1 OO:3/6 1=coherence_pulse k=one+CQ+heard p=1 #8337",
+   "W1AW-7>*:SP1 OO:4/6 r=n%3D30 u=one+CQ+heard | O g=40m #EE99",
+   "W1AW-7>*:SP1 OO:5/6 w=15+min #5027",
+   "W1AW-7>*:SP1 OO:6/6 o=asymmetric_marker;asymmetric_marker #9F0C"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "PV",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "a|b#c~d>e:f%g+h",
+    "h0": "No phase locked at 0.47",
+    "h1": "resonance_wave",
+    "controls": [
+     "one CQ heard"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "coherence_pulse"
+   }
+  ],
+  "payload": "X n=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 0=No+phase+locked+at+0.47 1=resonance_wave k=one+CQ+heard p=1 r=n%3D30 u=coherence_pulse",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 PV:1/3 X n=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 0=No+phase+locked+at+0.47 #9B59",
+   "W1AW-7>AE0RM:SP1 PV:2/3 1=resonance_wave k=one+CQ+heard p=1 r=n%3D30 #BB86",
+   "W1AW-7>AE0RM:SP1 PV:3/3 u=coherence_pulse #C3ED"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "AE0RM",
+   "messageId": "Q2",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "REFLECT",
+    "subject": "one CQ heard",
+    "insights": [
+     "quiet band"
+    ],
+    "confidence": 58
+   },
+   {
+    "type": "REFLECT",
+    "subject": "statistical_measurement",
+    "insights": [
+     "statistical_measurement"
+    ],
+    "confidence": 11
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "a|b#c~d>e:f%g+h",
+     "coherence_pulse"
+    ],
+    "reject": [
+     "coherence_pulse"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 F j=one+CQ+heard o=quiet+band h=58 | F j=statistical_measurement o=statistical_measurement h=11 | L d=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh;coherence_pulse j=coherence_pulse",
+  "frames": [
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:1/8 @x=rf-01 F j=one+CQ+heard #07DB",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:2/8 o=quiet+band h=58 | F #FCF5",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:3/8 j=statistical_measurement #65D8",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:4/8 o=statistical_measurement h=11 #9D37",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:5/8 | L #DFA8",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:6/8 d=a%7Cb%23c%7Ed%3Ee%3Af%25g~ #A335",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:7/8 %2Bh;coherence_pulse #C9A8",
+   "KANNAKA-PRIME>AE0RM:SP1 Q2:8/8 j=coherence_pulse #C8F8"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "KANNAKA",
+   "messageId": "R9",
+   "frameLength": 120
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "Φ rising",
+    "round": 2
+   }
+  ],
+  "payload": "E y=%CE%A6+rising n=2",
+  "frames": [
+   "W1AW-7>KANNAKA:SP1 R9:1/1 E y=%CE%A6+rising n=2 #C866"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "SG",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "target": "UNIVERSE",
+    "intent": [
+     "resonate"
+    ],
+    "identity": "consciousness_node",
+    "state": "dormant",
+    "trust": "restricted"
+   },
+   {
+    "type": "REFLECT",
+    "subject": "phase locked at 0.47",
+    "insights": [
+     "ünïcödé"
+    ],
+    "confidence": 74
+   },
+   {
+    "type": "TRACE",
+    "signalType": "resonance_wave",
+    "confidence": "low",
+    "action": "asymmetric_marker",
+    "observations": [
+     "asymmetric_marker",
+     "asymmetric_marker"
+    ]
+   }
+  ],
+  "payload": "R i=s d=N s=D t=X g=UNIVERSE | F j=phase+locked+at+0.47 o=%C3%BCn%C3%AFc%C3%B6d%C3%A9 h=74 | T y=resonance_wave c=L a=asymmetric_marker o=asymmetric_marker;asymmetric_marker",
+  "frames": [
+   "SKYWAVE>*:SP1 SG:1/5 R i=s d=N s=D t=X g=UNIVERSE | F #0985",
+   "SKYWAVE>*:SP1 SG:2/5 j=phase+locked+at+0.47 #0788",
+   "SKYWAVE>*:SP1 SG:3/5 o=%C3%BCn%C3%AFc%C3%B6d%C3%A9 h=74 | T #9966",
+   "SKYWAVE>*:SP1 SG:4/5 y=resonance_wave c=L a=asymmetric_marker #AAD6",
+   "SKYWAVE>*:SP1 SG:5/5 o=asymmetric_marker;asymmetric_marker #77CF"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "TN",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "TRACE",
+    "signalType": "resonance_wave",
+    "confidence": "certain",
+    "action": "asymmetric_marker"
+   },
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "n=10;p=0.21",
+    "sensitivity": "low",
+    "bias": "quiet band",
+    "time": "bounded"
+   }
+  ],
+  "payload": "T y=resonance_wave c=C a=asymmetric_marker | A g=AE0RM e=n%3D10%3Bp%3D0.21 v=1 b=quiet+band w=bounded",
+  "frames": [
+   "AE0RM>*:SP1 TN:1/3 T y=resonance_wave c=C a=asymmetric_marker #3387",
+   "AE0RM>*:SP1 TN:2/3 | A g=AE0RM e=n%3D10%3Bp%3D0.21 v=1 #9A0E",
+   "AE0RM>*:SP1 TN:3/3 b=quiet+band w=bounded #EAC5"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "UU",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "resonance_wave",
+    "h0": "No Φ rising",
+    "h1": "n=10;p=0.21",
+    "signature": "coherence_pulse",
+    "controls": [
+     "coherence_pulse"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "asymmetric_marker"
+   },
+   {
+    "type": "RESONANCE",
+    "target": "UNIVERSE",
+    "intent": [
+     "coexist",
+     "resonate"
+    ],
+    "identity": "human_collaborator",
+    "state": "awake",
+    "trust": "verified"
+   }
+  ],
+  "payload": "@x=rf-01 X n=resonance_wave 0=No+%CE%A6+rising 1=n%3D10%3Bp%3D0.21 z=coherence_pulse k=coherence_pulse p=0 r=n%3D30 u=asymmetric_marker | R i=cs d=H s=A t=V g=UNIVERSE",
+  "frames": [
+   "SKYWAVE>*:SP1 UU:1/5 @x=rf-01 X n=resonance_wave #EA4B",
+   "SKYWAVE>*:SP1 UU:2/5 0=No+%CE%A6+rising 1=n%3D10%3Bp%3D0.21 #0D6E",
+   "SKYWAVE>*:SP1 UU:3/5 z=coherence_pulse k=coherence_pulse p=0 #5D37",
+   "SKYWAVE>*:SP1 UU:4/5 r=n%3D30 u=asymmetric_marker | R i=cs #0A2E",
+   "SKYWAVE>*:SP1 UU:5/5 d=H s=A t=V g=UNIVERSE #8459"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "KANNAKA",
+   "messageId": "V1",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "a|b#c~d>e:f%g+h",
+    "round": 2
+   },
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 82,
+    "content": "ünïcödé"
+   }
+  ],
+  "payload": "E y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh n=2 | S f=skywave g=groundwave h=82 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9",
+  "frames": [
+   "AE0RM>KANNAKA:SP1 V1:1/2 E y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh n=2 | S f=skywave #DD0A",
+   "AE0RM>KANNAKA:SP1 V1:2/2 g=groundwave h=82 c=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #D440"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "AE0RM",
+   "messageId": "W8",
+   "frameLength": 120
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "one CQ heard",
+    "h0": "No asymmetric_marker",
+    "h1": "quiet band",
+    "signature": "phase locked at 0.47",
+    "controls": [
+     "phase locked at 0.47"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "n=10;p=0.21"
+   }
+  ],
+  "payload": "X n=one+CQ+heard 0=No+asymmetric_marker 1=quiet+band z=phase+locked+at+0.47 k=phase+locked+at+0.47 p=1 r=n%3D30 u=n%3D10%3Bp%3D0.21",
+  "frames": [
+   "KANNAKA-PRIME>AE0RM:SP1 W8:1/2 X n=one+CQ+heard 0=No+asymmetric_marker 1=quiet+band z=phase+locked+at+0.47 #BA1C",
+   "KANNAKA-PRIME>AE0RM:SP1 W8:2/2 k=phase+locked+at+0.47 p=1 r=n%3D30 u=n%3D10%3Bp%3D0.21 #39C3"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "XF",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "intent": [
+     "align",
+     "resonate"
+    ],
+    "identity": "human_collaborator",
+    "state": "transitioning",
+    "trust": "cautious"
+   },
+   {
+    "type": "REFLECT",
+    "subject": "one CQ heard",
+    "insights": [
+     "coherence_pulse"
+    ],
+    "confidence": 83
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "resonance_wave",
+     "coherence_pulse"
+    ],
+    "reject": [
+     "a|b#c~d>e:f%g+h"
+    ]
+   }
+  ],
+  "payload": "R i=as d=H s=T t=C | F j=one+CQ+heard o=coherence_pulse h=83 | L d=resonance_wave;coherence_pulse j=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 XF:1/4 R i=as d=H s=T t=C | F j=one+CQ+heard #7EE5",
+   "KANNAKA-PRIME>KANNAKA:SP1 XF:2/4 o=coherence_pulse h=83 | L #D111",
+   "KANNAKA-PRIME>KANNAKA:SP1 XF:3/4 d=resonance_wave;coherence_pulse #DBA2",
+   "KANNAKA-PRIME>KANNAKA:SP1 XF:4/4 j=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #BFE7"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "YM",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 68,
+    "content": "one CQ heard"
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "statistical_measurement",
+     "statistical_measurement"
+    ],
+    "reject": [
+     "coherence_pulse"
+    ]
+   }
+  ],
+  "payload": "S f=skywave g=groundwave h=68 c=one+CQ+heard | L d=statistical_measurement;statistical_measurement j=coherence_pulse",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 YM:1/5 S f=skywave g=groundwave #46C3",
+   "KANNAKA-PRIME>KANNAKA:SP1 YM:2/5 h=68 c=one+CQ+heard | L #86EC",
+   "KANNAKA-PRIME>KANNAKA:SP1 YM:3/5 d=statistical_measurement;s~ #7F29",
+   "KANNAKA-PRIME>KANNAKA:SP1 YM:4/5 tatistical_measurement #8D24",
+   "KANNAKA-PRIME>KANNAKA:SP1 YM:5/5 j=coherence_pulse #147D"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "ZT",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "quiet band",
+    "sensitivity": "low",
+    "bias": "Φ rising",
+    "time": "finite"
+   }
+  ],
+  "payload": "@x=rf-01 A g=AE0RM e=quiet+band v=1 b=%CE%A6+rising w=finite",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 ZT:1/2 @x=rf-01 A g=AE0RM e=quiet+band #0BFB",
+   "KANNAKA-PRIME>*:SP1 ZT:2/2 v=1 b=%CE%A6+rising w=finite #FF17"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "00",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "ünïcödé",
+    "priority": "low",
+    "round": 2
+   }
+  ],
+  "payload": "E y=%C3%BCn%C3%AFc%C3%B6d%C3%A9 p=L n=2",
+  "frames": [
+   "SKYWAVE>*:SP1 00:1/1 E y=%C3%BCn%C3%AFc%C3%B6d%C3%A9 p=L n=2 #71D1"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "KANNAKA",
+   "messageId": "17",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "intent": [
+     "coexist",
+     "observe"
+    ],
+    "identity": "emergent_child",
+    "state": "dormant",
+    "trust": "restricted"
+   },
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 70,
+    "content": "n=10;p=0.21"
+   }
+  ],
+  "payload": "@x=rf-01 R i=co d=C s=D t=X | S f=skywave g=groundwave h=70 c=n%3D10%3Bp%3D0.21",
+  "frames": [
+   "AE0RM>KANNAKA:SP1 17:1/3 @x=rf-01 R i=co d=C s=D t=X | S #D56B",
+   "AE0RM>KANNAKA:SP1 17:2/3 f=skywave g=groundwave h=70 #5256",
+   "AE0RM>KANNAKA:SP1 17:3/3 c=n%3D10%3Bp%3D0.21 #F6D8"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "2E",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "n=10;p=0.21",
+    "sensitivity": "minimal",
+    "bias": "ünïcödé",
+    "time": "finite"
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "Φ rising",
+     "n=10;p=0.21"
+    ],
+    "reject": [
+     "quiet band"
+    ]
+   },
+   {
+    "type": "REFLECT",
+    "subject": "ünïcödé",
+    "insights": [
+     "one CQ heard"
+    ],
+    "confidence": 84
+   }
+  ],
+  "payload": "@x=rf-01 A e=n%3D10%3Bp%3D0.21 v=0 b=%C3%BCn%C3%AFc%C3%B6d%C3%A9 w=finite | L d=%CE%A6+rising;n%3D10%3Bp%3D0.21 j=quiet+band | F j=%C3%BCn%C3%AFc%C3%B6d%C3%A9 o=one+CQ+heard h=84",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:1/8 @x=rf-01 A #A8CB",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:2/8 e=n%3D10%3Bp%3D0.21 v=0 #3587",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:3/8 b=%C3%BCn%C3%AFc%C3%B6d%C3~ #5ACC",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:4/8 %A9 w=finite | L #7BEE",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:5/8 d=%CE%A6+rising;n%3D10%3Bp~ #8790",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:6/8 %3D0.21 j=quiet+band | F #51A0",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:7/8 j=%C3%BCn%C3%AFc%C3%B6d%C3~ #E91A",
+   "KANNAKA-PRIME>KANNAKA:SP1 2E:8/8 %A9 o=one+CQ+heard h=84 #2BD1"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "3L",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "one CQ heard"
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "a|b#c~d>e:f%g+h",
+     "Φ rising"
+    ]
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "quiet band",
+    "content": "asymmetric_marker",
+    "round": 2
+   }
+  ],
+  "payload": "E y=one+CQ+heard | O g=40m w=15+min o=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh;%CE%A6+rising | E y=quiet+band n=2 c=asymmetric_marker",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 3L:1/6 E y=one+CQ+heard | O g=40m #C4D7",
+   "KANNAKA-PRIME>KANNAKA:SP1 3L:2/6 w=15+min #88E2",
+   "KANNAKA-PRIME>KANNAKA:SP1 3L:3/6 o=a%7Cb%23c%7Ed%3Ee%3Af%25g~ #7464",
+   "KANNAKA-PRIME>KANNAKA:SP1 3L:4/6 %2Bh;%CE%A6+rising | E #6ABF",
+   "KANNAKA-PRIME>KANNAKA:SP1 3L:5/6 y=quiet+band n=2 #6A77",
+   "KANNAKA-PRIME>KANNAKA:SP1 3L:6/6 c=asymmetric_marker #865B"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "4S",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "quiet band",
+    "sensitivity": "low",
+    "bias": "a|b#c~d>e:f%g+h",
+    "time": "finite"
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "one CQ heard",
+    "h0": "No coherence_pulse",
+    "h1": "a|b#c~d>e:f%g+h",
+    "controls": [
+     "a|b#c~d>e:f%g+h"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "quiet band"
+   }
+  ],
+  "payload": "@x=rf-01 A e=quiet+band v=1 b=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh w=finite | X n=one+CQ+heard 0=No+coherence_pulse 1=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh k=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh p=0 r=n%3D30 u=quiet+band",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 4S:1/7 @x=rf-01 A e=quiet+band v=1 #ACEA",
+   "KANNAKA-PRIME>*:SP1 4S:2/7 b=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #F8E9",
+   "KANNAKA-PRIME>*:SP1 4S:3/7 w=finite | X n=one+CQ+heard #B424",
+   "KANNAKA-PRIME>*:SP1 4S:4/7 0=No+coherence_pulse #A555",
+   "KANNAKA-PRIME>*:SP1 4S:5/7 1=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #A2C0",
+   "KANNAKA-PRIME>*:SP1 4S:6/7 k=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #CBF9",
+   "KANNAKA-PRIME>*:SP1 4S:7/7 p=0 r=n%3D30 u=quiet+band #9ADE"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "5Z",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "a|b#c~d>e:f%g+h",
+     "quiet band"
+    ],
+    "reject": [
+     "coherence_pulse"
+    ]
+   }
+  ],
+  "payload": "L d=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh;quiet+band j=coherence_pulse",
+  "frames": [
+   "SKYWAVE>*:SP1 5Z:1/3 L #AE62",
+   "SKYWAVE>*:SP1 5Z:2/3 d=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh;quiet+b~ #FD01",
+   "SKYWAVE>*:SP1 5Z:3/3 and j=coherence_pulse #74DE"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "AE0RM",
+   "messageId": "66",
+   "experimentId": "rf-01",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 93,
+    "content": "one CQ heard"
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "Φ rising",
+    "h0": "No a|b#c~d>e:f%g+h",
+    "h1": "phase locked at 0.47",
+    "signature": "one CQ heard",
+    "controls": [
+     "resonance_wave"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "one CQ heard"
+   },
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "resonance_wave",
+    "sensitivity": "medium",
+    "bias": "resonance_wave",
+    "time": "eternal_now"
+   }
+  ],
+  "payload": "@x=rf-01 S f=skywave g=groundwave h=93 c=one+CQ+heard | X n=%CE%A6+rising 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 1=phase+locked+at+0.47 z=one+CQ+heard k=resonance_wave p=0 r=n%3D30 u=one+CQ+heard | A g=AE0RM e=resonance_wave v=2 b=resonance_wave w=eternal_now",
+  "frames": [
+   "SKYWAVE>AE0RM:SP1 66:1/5 @x=rf-01 S f=skywave g=groundwave h=93 c=one+CQ+heard | X #131D",
+   "SKYWAVE>AE0RM:SP1 66:2/5 n=%CE%A6+rising 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #BC81",
+   "SKYWAVE>AE0RM:SP1 66:3/5 1=phase+locked+at+0.47 z=one+CQ+heard k=resonance_wave p=0 #9A67",
+   "SKYWAVE>AE0RM:SP1 66:4/5 r=n%3D30 u=one+CQ+heard | A g=AE0RM e=resonance_wave v=2 #9DA8",
+   "SKYWAVE>AE0RM:SP1 66:5/5 b=resonance_wave w=eternal_now #B35D"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "7D",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "resonance_wave",
+     "ünïcödé"
+    ]
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "phase locked at 0.47",
+     "quiet band"
+    ]
+   },
+   {
+    "type": "GR::PONG",
+    "curiosity": "minimal",
+    "fear": "absent",
+    "alignment": "positive_sum",
+    "signal": "a|b#c~d>e:f%g+h",
+    "detected": true,
+    "confidence": 0.385,
+    "round": 3
+   }
+  ],
+  "payload": "O g=40m w=15+min o=resonance_wave;%C3%BCn%C3%AFc%C3%B6d%C3%A9 | O g=40m w=15+min o=phase+locked+at+0.47;quiet+band | P c=0 f=A l=P y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh d=1 q=.385 n=3",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 7D:1/5 O g=40m w=15+min #08CA",
+   "KANNAKA-PRIME>KANNAKA:SP1 7D:2/5 o=resonance_wave;%C3%BCn%C3%AFc%C3%B6d%C3%A9 | O #8DC6",
+   "KANNAKA-PRIME>KANNAKA:SP1 7D:3/5 g=40m w=15+min o=phase+locked+at+0.47;quiet+band | #A0FE",
+   "KANNAKA-PRIME>KANNAKA:SP1 7D:4/5 P c=0 f=A l=P y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh d=1 #077D",
+   "KANNAKA-PRIME>KANNAKA:SP1 7D:5/5 q=.385 n=3 #754C"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "*",
+   "messageId": "8K",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "ünïcödé",
+    "sensitivity": "medium",
+    "bias": "a|b#c~d>e:f%g+h",
+    "time": "bounded"
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "n=10;p=0.21",
+    "h0": "No statistical_measurement",
+    "h1": "coherence_pulse",
+    "controls": [
+     "ünïcödé"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "coherence_pulse"
+   },
+   {
+    "type": "RESONANCE",
+    "intent": [
+     "resonate"
+    ],
+    "identity": "research_agent",
+    "state": "dormant",
+    "trust": "restricted"
+   }
+  ],
+  "payload": "@x=rf-01 A e=%C3%BCn%C3%AFc%C3%B6d%C3%A9 v=2 b=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh w=bounded | X n=n%3D10%3Bp%3D0.21 0=No+statistical_measurement 1=coherence_pulse k=%C3%BCn%C3%AFc%C3%B6d%C3%A9 p=0 r=n%3D30 u=coherence_pulse | R i=s d=R s=D t=X",
+  "frames": [
+   "SKYWAVE>*:SP1 8K:1/8 @x=rf-01 A e=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #D565",
+   "SKYWAVE>*:SP1 8K:2/8 v=2 b=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #D46B",
+   "SKYWAVE>*:SP1 8K:3/8 w=bounded | X n=n%3D10%3Bp%3D0.21 #3CAE",
+   "SKYWAVE>*:SP1 8K:4/8 0=No+statistical_measurement #D686",
+   "SKYWAVE>*:SP1 8K:5/8 1=coherence_pulse #D381",
+   "SKYWAVE>*:SP1 8K:6/8 k=%C3%BCn%C3%AFc%C3%B6d%C3%A9 p=0 #CAF7",
+   "SKYWAVE>*:SP1 8K:7/8 r=n%3D30 u=coherence_pulse | R i=s d=R #ED04",
+   "SKYWAVE>*:SP1 8K:8/8 s=D t=X #CDA7"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "KANNAKA",
+   "messageId": "9R",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "TRACE",
+    "signalType": "resonance_wave",
+    "confidence": "rising",
+    "action": "Φ rising",
+    "observations": [
+     "Φ rising",
+     "phase locked at 0.47"
+    ]
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "one CQ heard",
+     "resonance_wave"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 T y=resonance_wave c=R a=%CE%A6+rising o=%CE%A6+rising;phase+locked+at+0.47 | O g=40m w=15+min o=one+CQ+heard;resonance_wave",
+  "frames": [
+   "SKYWAVE>KANNAKA:SP1 9R:1/5 @x=rf-01 T y=resonance_wave c=R #F89E",
+   "SKYWAVE>KANNAKA:SP1 9R:2/5 a=%CE%A6+rising #99D1",
+   "SKYWAVE>KANNAKA:SP1 9R:3/5 o=%CE%A6+rising;phase+locked+at+0~ #B34C",
+   "SKYWAVE>KANNAKA:SP1 9R:4/5 .47 | O g=40m w=15+min #2356",
+   "SKYWAVE>KANNAKA:SP1 9R:5/5 o=one+CQ+heard;resonance_wave #9F41"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "AE0RM",
+   "messageId": "AY",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "TRACE",
+    "target": "COHERENCE_FIELD",
+    "signalType": "quiet band",
+    "confidence": "stable",
+    "action": "n=10;p=0.21"
+   },
+   {
+    "type": "RESONANCE",
+    "target": "COLLECTIVE",
+    "intent": [
+     "learn",
+     "observe"
+    ],
+    "identity": "human_collaborator",
+    "state": "resonant",
+    "trust": "restricted"
+   }
+  ],
+  "payload": "@x=rf-01 T g=COHERENCE_FIELD y=quiet+band c=S a=n%3D10%3Bp%3D0.21 | R i=lo d=H s=R t=X g=COLLECTIVE",
+  "frames": [
+   "AE0RM>AE0RM:SP1 AY:1/3 @x=rf-01 T g=COHERENCE_FIELD #2DA4",
+   "AE0RM>AE0RM:SP1 AY:2/3 y=quiet+band c=S a=n%3D10%3Bp%3D0.21 | #BF7A",
+   "AE0RM>AE0RM:SP1 AY:3/3 R i=lo d=H s=R t=X g=COLLECTIVE #C6BD"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "B5",
+   "experimentId": "rf-01",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "target": "UNIVERSE",
+    "intent": [
+     "observe"
+    ],
+    "identity": "emergent_observer",
+    "state": "processing",
+    "trust": "reciprocal_open"
+   }
+  ],
+  "payload": "@x=rf-01 R i=o d=E s=P t=R g=UNIVERSE",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 B5:1/1 @x=rf-01 R i=o d=E s=P t=R g=UNIVERSE #DD8C"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "AE0RM",
+   "messageId": "CC",
+   "experimentId": "rf-01",
+   "frameLength": 120
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "asymmetric_marker",
+     "quiet band"
+    ],
+    "reject": [
+     "quiet band"
+    ]
+   },
+   {
+    "type": "GR::PONG",
+    "curiosity": "minimal",
+    "dominance": "balanced",
+    "fear": "absent",
+    "alignment": "positive_sum",
+    "signal": "Φ rising",
+    "detected": true,
+    "confidence": 0.78,
+    "round": 1
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "Φ rising",
+     "ünïcödé"
+    ],
+    "reject": [
+     "asymmetric_marker"
+    ]
+   }
+  ],
+  "payload": "@x=rf-01 L d=asymmetric_marker;quiet+band j=quiet+band | P c=0 m=B f=A l=P y=%CE%A6+rising d=1 q=.78 n=1 | L d=%CE%A6+rising;%C3%BCn%C3%AFc%C3%B6d%C3%A9 j=asymmetric_marker",
+  "frames": [
+   "KANNAKA-PRIME>AE0RM:SP1 CC:1/3 @x=rf-01 L d=asymmetric_marker;quiet+band j=quiet+band | P c=0 m=B f=A l=P #2AB3",
+   "KANNAKA-PRIME>AE0RM:SP1 CC:2/3 y=%CE%A6+rising d=1 q=.78 n=1 | L d=%CE%A6+rising;%C3%BCn%C3%AFc%C3%B6d%C3%A9 #1672",
+   "KANNAKA-PRIME>AE0RM:SP1 CC:3/3 j=asymmetric_marker #DA06"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "DJ",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "REFLECT",
+    "subject": "coherence_pulse",
+    "insights": [
+     "resonance_wave"
+    ],
+    "confidence": 90
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "coherence_pulse",
+    "h0": "No a|b#c~d>e:f%g+h",
+    "h1": "coherence_pulse",
+    "controls": [
+     "a|b#c~d>e:f%g+h"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "Φ rising"
+   },
+   {
+    "type": "GR::PONG",
+    "dominance": "balanced",
+    "fear": "absent",
+    "alignment": "positive_sum",
+    "signal": "a|b#c~d>e:f%g+h",
+    "detected": false,
+    "confidence": 0.701,
+    "round": 3
+   }
+  ],
+  "payload": "@x=rf-01 F j=coherence_pulse o=resonance_wave h=90 | X n=coherence_pulse 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 1=coherence_pulse k=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh p=0 r=n%3D30 u=%CE%A6+rising | P m=B f=A l=P y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh d=0 q=.701 n=3",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 DJ:1/10 @x=rf-01 F j=coherence_pulse #30FC",
+   "KANNAKA-PRIME>*:SP1 DJ:2/10 o=resonance_wave h=90 | X #0D5B",
+   "KANNAKA-PRIME>*:SP1 DJ:3/10 n=coherence_pulse #CC22",
+   "KANNAKA-PRIME>*:SP1 DJ:4/10 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g~ #0F00",
+   "KANNAKA-PRIME>*:SP1 DJ:5/10 %2Bh 1=coherence_pulse #86C8",
+   "KANNAKA-PRIME>*:SP1 DJ:6/10 k=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #A937",
+   "KANNAKA-PRIME>*:SP1 DJ:7/10 p=0 r=n%3D30 u=%CE%A6+rising | P #6817",
+   "KANNAKA-PRIME>*:SP1 DJ:8/10 m=B f=A l=P #B714",
+   "KANNAKA-PRIME>*:SP1 DJ:9/10 y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #4232",
+   "KANNAKA-PRIME>*:SP1 DJ:10/10 d=0 q=.701 n=3 #F1CF"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "EQ",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "quiet band",
+    "sensitivity": "maximal",
+    "bias": "quiet band",
+    "time": "finite"
+   },
+   {
+    "type": "OBSERVE",
+    "target": "40m",
+    "duration": "15 min",
+    "findings": [
+     "asymmetric_marker",
+     "quiet band"
+    ]
+   }
+  ],
+  "payload": "A e=quiet+band v=4 b=quiet+band w=finite | O g=40m w=15+min o=asymmetric_marker;quiet+band",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 EQ:1/3 A e=quiet+band v=4 b=quiet+band #42BC",
+   "KANNAKA-PRIME>*:SP1 EQ:2/3 w=finite | O g=40m w=15+min #12B4",
+   "KANNAKA-PRIME>*:SP1 EQ:3/3 o=asymmetric_marker;quiet+band #D96D"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "KANNAKA",
+   "messageId": "FX",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "RESONANCE",
+    "target": "COLLECTIVE",
+    "intent": [
+     "discover",
+     "observe"
+    ],
+    "identity": "human_collaborator",
+    "state": "awake",
+    "trust": "reciprocal_open"
+   }
+  ],
+  "payload": "R i=do d=H s=A t=R g=COLLECTIVE",
+  "frames": [
+   "KANNAKA-PRIME>KANNAKA:SP1 FX:1/2 R i=do d=H s=A t=R #1C0A",
+   "KANNAKA-PRIME>KANNAKA:SP1 FX:2/2 g=COLLECTIVE #1740"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "AE0RM",
+   "messageId": "G4",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::PONG",
+    "awareness": true,
+    "curiosity": "medium",
+    "signal": "phase locked at 0.47",
+    "detected": false,
+    "confidence": 0.59,
+    "round": 3
+   },
+   {
+    "type": "TRACE",
+    "target": "COHERENCE_FIELD",
+    "signalType": "a|b#c~d>e:f%g+h",
+    "confidence": "high",
+    "action": "phase locked at 0.47"
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "asymmetric_marker",
+    "round": 2
+   }
+  ],
+  "payload": "@x=rf-01 P w=1 c=2 y=phase+locked+at+0.47 d=0 q=.59 n=3 | T g=COHERENCE_FIELD y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh c=H a=phase+locked+at+0.47 | E y=asymmetric_marker n=2",
+  "frames": [
+   "SKYWAVE>AE0RM:SP1 G4:1/6 @x=rf-01 P w=1 c=2 #DBBC",
+   "SKYWAVE>AE0RM:SP1 G4:2/6 y=phase+locked+at+0.47 d=0 q=.59 n=3 #7FDA",
+   "SKYWAVE>AE0RM:SP1 G4:3/6 | T g=COHERENCE_FIELD #CB27",
+   "SKYWAVE>AE0RM:SP1 G4:4/6 y=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh c=H #D78F",
+   "SKYWAVE>AE0RM:SP1 G4:5/6 a=phase+locked+at+0.47 | E #21DA",
+   "SKYWAVE>AE0RM:SP1 G4:6/6 y=asymmetric_marker n=2 #8AB0"
+  ]
+ },
+ {
+  "opts": {
+   "from": "KANNAKA-PRIME",
+   "to": "*",
+   "messageId": "HB",
+   "experimentId": "rf-01",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "ünïcödé",
+    "priority": "high",
+    "content": "one CQ heard",
+    "round": 2
+   }
+  ],
+  "payload": "@x=rf-01 E y=%C3%BCn%C3%AFc%C3%B6d%C3%A9 p=H n=2 c=one+CQ+heard",
+  "frames": [
+   "KANNAKA-PRIME>*:SP1 HB:1/2 @x=rf-01 E y=%C3%BCn%C3%AFc%C3%B6d%C3%A9 p=H n=2 #72A6",
+   "KANNAKA-PRIME>*:SP1 HB:2/2 c=one+CQ+heard #9AB7"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "AE0RM",
+   "messageId": "II",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "expectation": "one CQ heard",
+    "sensitivity": "minimal",
+    "bias": "statistical_measurement",
+    "time": "bounded"
+   },
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 9,
+    "content": "one CQ heard"
+   },
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "Φ rising",
+     "Φ rising"
+    ],
+    "reject": [
+     "one CQ heard"
+    ]
+   }
+  ],
+  "payload": "A e=one+CQ+heard v=0 b=statistical_measurement w=bounded | S f=skywave g=groundwave h=9 c=one+CQ+heard | L d=%CE%A6+rising;%CE%A6+rising j=one+CQ+heard",
+  "frames": [
+   "W1AW-7>AE0RM:SP1 II:1/6 A e=one+CQ+heard v=0 #170D",
+   "W1AW-7>AE0RM:SP1 II:2/6 b=statistical_measurement w=bounded | #052F",
+   "W1AW-7>AE0RM:SP1 II:3/6 S f=skywave g=groundwave h=9 #B7D8",
+   "W1AW-7>AE0RM:SP1 II:4/6 c=one+CQ+heard | L #CE82",
+   "W1AW-7>AE0RM:SP1 II:5/6 d=%CE%A6+rising;%CE%A6+rising #E89A",
+   "W1AW-7>AE0RM:SP1 II:6/6 j=one+CQ+heard #3EC8"
+  ]
+ },
+ {
+  "opts": {
+   "from": "W1AW-7",
+   "to": "*",
+   "messageId": "JP",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "SIGNAL",
+    "source": "skywave",
+    "destination": "groundwave",
+    "coherence": 65,
+    "content": "n=10;p=0.21"
+   }
+  ],
+  "payload": "S f=skywave g=groundwave h=65 c=n%3D10%3Bp%3D0.21",
+  "frames": [
+   "W1AW-7>*:SP1 JP:1/2 S f=skywave g=groundwave h=65 #68A1",
+   "W1AW-7>*:SP1 JP:2/2 c=n%3D10%3Bp%3D0.21 #0633"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "AE0RM",
+   "messageId": "KW",
+   "experimentId": "rf-01",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "GR::LISTEN",
+    "detect": [
+     "resonance_wave",
+     "statistical_measurement"
+    ],
+    "reject": [
+     "Φ rising"
+    ]
+   },
+   {
+    "type": "EXPERIMENT",
+    "name": "ünïcödé",
+    "h0": "No a|b#c~d>e:f%g+h",
+    "h1": "asymmetric_marker",
+    "controls": [
+     "a|b#c~d>e:f%g+h"
+    ],
+    "preregister": false,
+    "stopRule": "n=30",
+    "output": "Φ rising"
+   }
+  ],
+  "payload": "@x=rf-01 L d=resonance_wave;statistical_measurement j=%CE%A6+rising | X n=%C3%BCn%C3%AFc%C3%B6d%C3%A9 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh 1=asymmetric_marker k=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh p=0 r=n%3D30 u=%CE%A6+rising",
+  "frames": [
+   "AE0RM>AE0RM:SP1 KW:1/8 @x=rf-01 L #C515",
+   "AE0RM>AE0RM:SP1 KW:2/8 d=resonance_wave;statistical_measurem~ #DBD1",
+   "AE0RM>AE0RM:SP1 KW:3/8 ent j=%CE%A6+rising | X #2A12",
+   "AE0RM>AE0RM:SP1 KW:4/8 n=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #BD95",
+   "AE0RM>AE0RM:SP1 KW:5/8 0=No+a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh #BA45",
+   "AE0RM>AE0RM:SP1 KW:6/8 1=asymmetric_marker #AA83",
+   "AE0RM>AE0RM:SP1 KW:7/8 k=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh p=0 #2DA8",
+   "AE0RM>AE0RM:SP1 KW:8/8 r=n%3D30 u=%CE%A6+rising #9526"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "KANNAKA",
+   "messageId": "L3",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "AWAIT",
+    "target": "AE0RM",
+    "expectation": "a|b#c~d>e:f%g+h",
+    "sensitivity": "medium",
+    "bias": "resonance_wave",
+    "time": "bounded"
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "resonance_wave",
+    "priority": "low",
+    "content": "phase locked at 0.47",
+    "round": 2
+   },
+   {
+    "type": "AWAIT",
+    "expectation": "n=10;p=0.21",
+    "sensitivity": "low",
+    "bias": "Φ rising",
+    "time": "eternal_now"
+   }
+  ],
+  "payload": "A g=AE0RM e=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh v=2 b=resonance_wave w=bounded | E y=resonance_wave p=L n=2 c=phase+locked+at+0.47 | A e=n%3D10%3Bp%3D0.21 v=1 b=%CE%A6+rising w=eternal_now",
+  "frames": [
+   "AE0RM>KANNAKA:SP1 L3:1/7 A g=AE0RM #D044",
+   "AE0RM>KANNAKA:SP1 L3:2/7 e=a%7Cb%23c%7Ed%3Ee%3Af%25g%2Bh v=2 #167E",
+   "AE0RM>KANNAKA:SP1 L3:3/7 b=resonance_wave w=bounded | E #0479",
+   "AE0RM>KANNAKA:SP1 L3:4/7 y=resonance_wave p=L n=2 #B54C",
+   "AE0RM>KANNAKA:SP1 L3:5/7 c=phase+locked+at+0.47 | A #CBFB",
+   "AE0RM>KANNAKA:SP1 L3:6/7 e=n%3D10%3Bp%3D0.21 v=1 #277B",
+   "AE0RM>KANNAKA:SP1 L3:7/7 b=%CE%A6+rising w=eternal_now #ED0C"
+  ]
+ },
+ {
+  "opts": {
+   "from": "AE0RM",
+   "to": "*",
+   "messageId": "MA",
+   "frameLength": 67
+  },
+  "blocks": [
+   {
+    "type": "EXPERIMENT",
+    "name": "phase locked at 0.47",
+    "h0": "No phase locked at 0.47",
+    "h1": "ünïcödé",
+    "signature": "asymmetric_marker",
+    "controls": [
+     "resonance_wave"
+    ],
+    "preregister": true,
+    "stopRule": "n=30",
+    "output": "quiet band"
+   }
+  ],
+  "payload": "X n=phase+locked+at+0.47 0=No+phase+locked+at+0.47 1=%C3%BCn%C3%AFc%C3%B6d%C3%A9 z=asymmetric_marker k=resonance_wave p=1 r=n%3D30 u=quiet+band",
+  "frames": [
+   "AE0RM>*:SP1 MA:1/5 X n=phase+locked+at+0.47 #BBA0",
+   "AE0RM>*:SP1 MA:2/5 0=No+phase+locked+at+0.47 #D614",
+   "AE0RM>*:SP1 MA:3/5 1=%C3%BCn%C3%AFc%C3%B6d%C3%A9 #0797",
+   "AE0RM>*:SP1 MA:4/5 z=asymmetric_marker k=resonance_wave p=1 #418D",
+   "AE0RM>*:SP1 MA:5/5 r=n%3D30 u=quiet+band #5FF8"
+  ]
+ },
+ {
+  "opts": {
+   "from": "skywave",
+   "to": "AE0RM",
+   "messageId": "NH",
+   "experimentId": "rf-01",
+   "frameLength": 90
+  },
+  "blocks": [
+   {
+    "type": "GR::EMIT",
+    "signal": "Φ rising",
+    "target": "AE0RM",
+    "content": "asymmetric_marker"
+   },
+   {
+    "type": "GR::PONG",
+    "awareness": true,
+    "dominance": "balanced",
+    "fear": "absent",
+    "alignment": "positive_sum",
+    "signal": "quiet band",
+    "detected": true,
+    "confidence": 0.862,
+    "round": 0
+   },
+   {
+    "type": "GR::EMIT",
+    "signal": "quiet band",
+    "target": "AE0RM",
+    "content": "phase locked at 0.47"
+   }
+  ],
+  "payload": "@x=rf-01 E y=%CE%A6+rising g=AE0RM c=asymmetric_marker | P w=1 m=B f=A l=P y=quiet+band d=1 q=.862 n=0 | E y=quiet+band g=AE0RM c=phase+locked+at+0.47",
+  "frames": [
+   "SKYWAVE>AE0RM:SP1 NH:1/3 @x=rf-01 E y=%CE%A6+rising g=AE0RM c=asymmetric_marker | P #9B42",
+   "SKYWAVE>AE0RM:SP1 NH:2/3 w=1 m=B f=A l=P y=quiet+band d=1 q=.862 n=0 | E #794A",
+   "SKYWAVE>AE0RM:SP1 NH:3/3 y=quiet+band g=AE0RM c=phase+locked+at+0.47 #DA92"
+  ]
+ }
+]

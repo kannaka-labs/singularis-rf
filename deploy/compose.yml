@@ -1,0 +1,31 @@
+# docker compose -f deploy/compose.yml up -d --build
+# RX-only station on skywave. Attach the RTL-SDR (USB passthrough on the VM) and it decodes
+# APRS on 144.390 MHz; without a dongle set RF_AUDIO=none and use RF_SOURCE=js8call or stdin.
+services:
+  singularis-rf:
+    build: ..
+    image: singularis-rf:latest
+    container_name: singularis-rf
+    restart: unless-stopped
+    environment:
+      RF_STATION: ${RF_STATION:-RX-SKYWAVE}
+      RF_AUDIO: ${RF_AUDIO:-rtl}
+      RF_FREQ: ${RF_FREQ:-144.390M}
+      RF_GAIN: ${RF_GAIN:-40}
+      RF_SOURCE: kiss
+      KANNAKA_NATS_URL: ${KANNAKA_NATS_URL:-nats://swarm.ninja-portal.com:4222}
+      NATS_USER: ${NATS_USER}
+      NATS_PASSWORD: ${NATS_PASSWORD}
+      RF_LOG: /data/heard.jsonl
+    env_file:
+      - path: ${HOME}/.kannaka-nats.env
+        required: false
+    volumes:
+      - singularis-rf-data:/data
+    devices:
+      # RTL-SDR dongle; harmless if absent (rtl_fm just fails to open and the log says so).
+      - /dev/bus/usb:/dev/bus/usb
+    # No ports published: KISS stays on the container loopback; the only output is NATS + the log.
+
+volumes:
+  singularis-rf-data:
