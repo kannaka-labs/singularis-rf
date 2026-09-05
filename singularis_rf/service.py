@@ -159,9 +159,35 @@ class Station:
                 "rx_only": True, "ts": time.time(),
             })
 
+    async def start_transmitter(self) -> asyncio.Task | None:
+        """JS8Call transmit path — only when explicitly enabled, only alongside a JS8Call source."""
+        from .tx import TxPolicy, Transmitter, TxRefused, serve_requests
+        from .js8call import Js8CallClient, Js8CallError
+        policy = TxPolicy.from_env()
+        if not policy.enabled:
+            return None
+        if self.cfg.source != "js8call":
+            print("[tx] RF_TX_ENABLE is set but source is not js8call; transmit path not started", file=sys.stderr)
+            return None
+        client = Js8CallClient(self.cfg.js8_host, self.cfg.js8_port)
+        try:
+            await client.connect()
+            tx = Transmitter(self.spec, client, policy, station=self.cfg.station, publish=self.publish, subject_prefix=self.cfg.subject_prefix)
+            callsign = await tx.prepare()
+        except (TxRefused, Js8CallError, OSError) as e:
+            print(f"[tx] transmit path NOT armed: {e}", file=sys.stderr)
+            await client.close()
+            return None
+        print(f"[tx] armed as {callsign} (allowlist={sorted(policy.allowlist) or 'any'}, max {policy.max_frames_per_10min} frames/10min)", file=sys.stderr)
+        if self.nc is None:
+            print("[tx] no NATS connection; transmit requests cannot be received", file=sys.stderr)
+            return None
+        return asyncio.create_task(serve_requests(tx, self.nc, self.cfg.station, self.cfg.subject_prefix))
+
     async def run(self, once: bool = False) -> None:
         await self.connect_nats()
         hb = asyncio.create_task(self.heartbeat())
+        tx_task = await self.start_transmitter()
         try:
             async for heard in self.source.run():
                 await self.on_heard(heard)
@@ -169,6 +195,8 @@ class Station:
                 await asyncio.Event().wait()
         finally:
             hb.cancel()
+            if tx_task:
+                tx_task.cancel()
             if self.nc is not None:
                 try:
                     await self.nc.drain()

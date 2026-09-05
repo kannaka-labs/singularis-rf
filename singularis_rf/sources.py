@@ -86,7 +86,8 @@ class Js8CallSource:
                     kind = msg.get("type", "")
                     params = msg.get("params", {}) or {}
                     if kind in ("RX.DIRECTED", "RX.ACTIVITY"):
-                        text = str(msg.get("value") or params.get("TEXT") or "").strip()
+                        # params.TEXT is the message body; `value` is the display line ("FROM: TO text").
+                        text = str(params.get("TEXT") or msg.get("value") or "").strip()
                         if not text:
                             continue
                         self.frames += 1

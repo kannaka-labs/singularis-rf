@@ -321,9 +321,10 @@ def decode_payload(spec: Spec, payload: str) -> tuple[list[dict[str, Any]], str 
     experiment_id = session_id = None
     while tokens and tokens[0].startswith("@"):
         t = tokens.pop(0)
-        if t.startswith("@x="):
+        key = t[:3].lower()  # meta keys are case-insensitive like every other code
+        if key == "@x=":
             experiment_id = unescape_value(t[3:])
-        elif t.startswith("@s="):
+        elif key == "@s=":
             session_id = unescape_value(t[3:])
         else:
             raise CodecError(f"Unknown meta token {t}")
@@ -377,9 +378,23 @@ def _header(frm: str, to: str, mid: str, seq: int, total: int) -> str:
     return f"{frm}>{to}:{PROTOCOL} {mid}:{seq}/{total} "
 
 
+_BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def random_message_id() -> str:
+    import random
+    return random.choice(_BASE36) + random.choice(_BASE36)
+
+
 def encode_message(spec: Spec, blocks: list[dict[str, Any]], *, from_: str, to: str | None = None, message_id: str,
-                   experiment_id: str | None = None, session_id: str | None = None, frame_length: int = DEFAULT_FRAME_LENGTH) -> list[str]:
-    """Mirror of the TypeScript encoder (used for tests and for any future TX path)."""
+                   experiment_id: str | None = None, session_id: str | None = None, frame_length: int = DEFAULT_FRAME_LENGTH,
+                   case_fold: bool = False) -> list[str]:
+    """Mirror of the TypeScript encoder (used for tests and for the TX path).
+
+    case_fold=True upper-cases the whole body BEFORE the CRC is computed, for transports that
+    fold case (some digital modes send uppercase only). Codes and keys are case-insensitive so
+    nothing structural is lost; free-text values come out uppercase (documented as lossy).
+    """
     frm = normalize_identifier(from_)
     dest = normalize_identifier(to or "*")
     mid = message_id.upper()
@@ -428,6 +443,8 @@ def encode_message(spec: Spec, blocks: list[dict[str, Any]], *, from_: str, to: 
     out = []
     for i, p in enumerate(payloads, 1):
         body = _header(frm, dest, mid, i, total) + p
+        if case_fold:
+            body = body.upper()
         out.append(f"{body} #{crc16(body)}")
     return out
 

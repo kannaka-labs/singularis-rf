@@ -53,6 +53,21 @@ Environment: `RF_STATION` (identifier in `RF.station.<id>`), `RF_AUDIO` (`rtl` |
 
 `RF.heard.<source>` carries every decoded packet (`from`, `to`, `text`, `kind`), Singularis or not — the membrane hears the whole band. `RF.station.<id>` is a 60 s heartbeat with counters.
 
-## Why receive-only, and what comes next
+## Transmit (JS8Call only, off by default)
 
-Transmitting on amateur frequencies needs a licensed control operator, station identification, and a frequency the licensee chooses; the encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that is legal when it happens. This service deliberately has no TX path. Next steps, each a separate component: a JS8Call transmit driver for HF keyboard traffic, then APRS transmit via Direwolf; the Space Child Research Collective gains an `rf` channel so vetted findings can be sent as frames and RF replies flow back as feedback.
+`singularis_rf/tx.py` can hand frames to a running JS8Call over its TCP API (`TX.SEND_MESSAGE`, one SP1 frame per over, in JS8Call's directed form `CALLSIGN: frame`). JS8Call is the transmitter and puts the licensed callsign on every over; this driver only supplies text, and it refuses unless **all** of these hold:
+
+| condition | env |
+|---|---|
+| transmit explicitly enabled | `RF_TX_ENABLE=1` |
+| licensed station declared, and equal to the callsign configured in JS8Call | `RF_CALLSIGN=AE0RM` (checked against `STATION.GET_CALLSIGN` before every message) |
+| destination allowed (optional) | `RF_TX_ALLOWLIST=KANNAKA,W1AW` |
+| within the rate limit | `RF_TX_MAX_FRAMES_PER_10MIN=30` (default) |
+
+Also: `RF_TX_CASE_FOLD=1` for a case-folding path (frames are upper-cased before the CRC, per spec §2), `RF_TX_FRAME_TIMEOUT_S` (240), `RF_TX_GAP_S` (2). Requests arrive on NATS `RF.tx.<STATION>` as `{"to":"KANNAKA","blocks":[...],"experimentId":"rf-01"}` (reply on the request's reply subject); progress is published on `RF.tx.<STATION>.status` (`start`, `frame_sent`, `complete`, `refused`, `timeout`). The station runs the transmitter alongside the JS8Call receive source (`RF_SOURCE=js8call`), so replies come back through the same loop.
+
+**Validation status:** the transmit path is verified against `tests/fake_js8call.py`, a protocol-faithful stand-in for JS8Call's API (request/response `_ID` correlation, `TX.TEXT`/`TX.FRAME` lifecycle, `RX.DIRECTED` loopback). It has **not yet been exercised against a real JS8Call instance and radio**; that happens in AE0RM's shack, on a frequency and under a callsign the control operator chooses.
+
+## What comes next
+
+APRS transmit via Direwolf (needs PTT hardware and the same guard), and an `rf` channel in the Space Child Research Collective so vetted findings can be sent as frames and RF replies flow back as feedback. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.
