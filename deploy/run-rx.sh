@@ -20,12 +20,22 @@ DW_PID=""
 
 case "$RF_AUDIO" in
   rtl)
-    if ! rtl_test -t >/dev/null 2>&1; then
-      echo "[run-rx] no RTL-SDR dongle detected (rtl_test failed); set RF_AUDIO=none or attach the device" >&2
-    fi
-    echo "[run-rx] rtl_fm ${RF_FREQ} → direwolf" >&2
-    rtl_fm -f "$RF_FREQ" -M fm -s 22050 -g "$RF_GAIN" -p "$RF_PPM" -E dc - | $DW &
-    DW_PID=$!
+    # The station runs regardless (heartbeats say connected:false until audio flows). The audio
+    # chain waits for a dongle and restarts if it is unplugged, so plugging an RTL-SDR into the VM
+    # is all that is needed — no container restart.
+    python3 -m singularis_rf "$@" &
+    ST_PID=$!
+    trap 'kill "$ST_PID" 2>/dev/null; exit 0' TERM INT
+    while true; do
+      until rtl_test -t >/dev/null 2>&1; do
+        echo "[run-rx] no RTL-SDR dongle detected; waiting (attach the device to /dev/bus/usb)" >&2
+        sleep "${RF_DONGLE_POLL_S:-60}"
+      done
+      echo "[run-rx] rtl_fm ${RF_FREQ} → direwolf" >&2
+      rtl_fm -f "$RF_FREQ" -M fm -s 22050 -g "$RF_GAIN" -p "$RF_PPM" -E dc - | $DW || true
+      echo "[run-rx] audio chain ended; re-checking dongle in 10 s" >&2
+      sleep 10
+    done
     ;;
   wav)
     : "${RF_WAV:?RF_AUDIO=wav needs RF_WAV}"
