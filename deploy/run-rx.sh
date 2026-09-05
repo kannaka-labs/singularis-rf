@@ -26,8 +26,10 @@ case "$RF_AUDIO" in
     python3 -m singularis_rf "$@" &
     ST_PID=$!
     trap 'kill "$ST_PID" 2>/dev/null; exit 0' TERM INT
+    # rtl_test exits 0 even when it finds nothing; its text is the truth ("Found 1 device(s)").
+    have_dongle() { rtl_test -t 2>&1 | grep -q "^Found [1-9]"; }
     while true; do
-      until rtl_test -t >/dev/null 2>&1; do
+      until have_dongle; do
         echo "[run-rx] no RTL-SDR dongle detected; waiting (attach the device to /dev/bus/usb)" >&2
         sleep "${RF_DONGLE_POLL_S:-60}"
       done
