@@ -120,6 +120,24 @@ def test_transmit_sends_each_frame_as_a_directed_message_and_waits_for_idle():
     assert kinds[0] == "start" and kinds[-1] == "complete" and kinds.count("frame_sent") == len(result.frames)
 
 
+def test_ref_is_echoed_on_every_status_event_and_case_fold_can_be_per_request():
+    fake = FakeJs8Call(callsign="AE0RM")
+    bus = Bus()
+
+    async def go(client):
+        tx = Transmitter(SPEC, client, policy(), station="AE0RM", publish=bus.publish)
+        return await tx.transmit(BLOCKS, "KANNAKA", message_id="7Q", ref="delivery-123", case_fold=True)
+
+    result = asyncio.run(with_fake(fake, go))
+    assert result.ok
+    statuses = [p for s, p in bus.events if s == "RF.tx.AE0RM.status"]
+    assert statuses and all(p.get("ref") == "delivery-123" for p in statuses)
+    assert [p["event"] for p in statuses][-1] == "complete"
+    assert all(f == f.upper() for f in result.frames)  # per-request case_fold overrode the policy default
+    r = parse_tx_request({"to": "KANNAKA", "blocks": BLOCKS, "ref": "dl-9", "caseFold": True})
+    assert r["ref"] == "dl-9" and r["case_fold"] is True
+
+
 def test_transmit_refused_when_js8call_callsign_differs_and_nothing_is_sent():
     fake = FakeJs8Call(callsign="W1AW")  # the operator's radio is not who we claim to be
     bus = Bus()

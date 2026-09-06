@@ -130,31 +130,37 @@ class Transmitter:
         self.guard.check_station(self.js8_callsign)
         return self.js8_callsign
 
-    def frames_for(self, blocks: list[dict[str, Any]], to: str, message_id: str | None, experiment_id: str | None, session_id: str | None) -> tuple[str, list[str]]:
+    def frames_for(self, blocks: list[dict[str, Any]], to: str, message_id: str | None, experiment_id: str | None, session_id: str | None,
+                   case_fold: bool | None = None) -> tuple[str, list[str]]:
         if not self.policy.callsign:
             raise TxRefused("RF_CALLSIGN is not set")
         mid = (message_id or random_message_id()).upper()
         frames = encode_message(self.spec, blocks, from_=self.policy.callsign, to=to, message_id=mid,
                                 experiment_id=experiment_id, session_id=session_id,
-                                frame_length=self.policy.frame_length, case_fold=self.policy.case_fold)
+                                frame_length=self.policy.frame_length,
+                                case_fold=self.policy.case_fold if case_fold is None else case_fold)
         return mid, frames
 
     async def transmit(self, blocks: list[dict[str, Any]], to: str, *, message_id: str | None = None,
-                       experiment_id: str | None = None, session_id: str | None = None) -> TxResult:
+                       experiment_id: str | None = None, session_id: str | None = None,
+                       ref: str | None = None, case_fold: bool | None = None) -> TxResult:
+        """`ref` is the requester's correlation id; it is echoed on every status event so the
+        requester (e.g. the Collective's delivery ledger) can follow this message without polling."""
         async with self._lock:
             started = time.time()
             to = (to or "*").strip().upper()
+            tag = {"ref": ref} if ref else {}
             try:
                 self.js8_callsign = await self.client.get_callsign()
                 self.guard.check_station(self.js8_callsign)
                 self.guard.check_destination(to)
-                mid, frames = self.frames_for(blocks, to, message_id, experiment_id, session_id)
+                mid, frames = self.frames_for(blocks, to, message_id, experiment_id, session_id, case_fold)
                 self.guard.reserve_frames(len(frames))
             except (TxRefused, CodecError, Js8CallError) as e:
-                await self.status({"event": "refused", "to": to, "error": str(e)})
+                await self.status({"event": "refused", "to": to, "error": str(e), **tag})
                 return TxResult(message_id=message_id or "", to=to, frames=[], sent=0, ok=False, error=str(e), started_at=started, finished_at=time.time())
 
-            await self.status({"event": "start", "message_id": mid, "to": to, "frames": len(frames), "callsign": self.js8_callsign})
+            await self.status({"event": "start", "message_id": mid, "to": to, "frames": len(frames), "callsign": self.js8_callsign, **tag})
             sent = 0
             for i, frame in enumerate(frames, 1):
                 text = directed_text(to, frame)
@@ -162,16 +168,16 @@ class Transmitter:
                     await self.client.send_message(text)
                     done = await self.client.wait_tx_idle(self.policy.per_frame_timeout_s)
                 except Js8CallError as e:
-                    await self.status({"event": "error", "message_id": mid, "frame": i, "error": str(e)})
+                    await self.status({"event": "error", "message_id": mid, "frame": i, "error": str(e), **tag})
                     return TxResult(mid, to, frames, sent, False, f"frame {i}: {e}", started, time.time())
                 if not done:
-                    await self.status({"event": "timeout", "message_id": mid, "frame": i})
+                    await self.status({"event": "timeout", "message_id": mid, "frame": i, **tag})
                     return TxResult(mid, to, frames, sent, False, f"frame {i}: JS8Call did not finish within {self.policy.per_frame_timeout_s:.0f}s", started, time.time())
                 sent += 1
-                await self.status({"event": "frame_sent", "message_id": mid, "frame": i, "of": len(frames), "text": text})
+                await self.status({"event": "frame_sent", "message_id": mid, "frame": i, "of": len(frames), "text": text, **tag})
                 if i < len(frames):
                     await asyncio.sleep(self.policy.gap_between_frames_s)
-            await self.status({"event": "complete", "message_id": mid, "to": to, "frames": len(frames)})
+            await self.status({"event": "complete", "message_id": mid, "to": to, "frames": len(frames), **tag})
             return TxResult(mid, to, frames, sent, True, None, started, time.time())
 
 
@@ -187,6 +193,9 @@ def parse_tx_request(payload: dict[str, Any]) -> dict[str, Any]:
         "blocks": blocks, "to": to,
         "message_id": str(payload["messageId"]).upper() if payload.get("messageId") else None,
         "experiment_id": payload.get("experimentId"), "session_id": payload.get("sessionId"),
+        # `ref` is the requester's correlation id (the Collective uses its delivery id); echoed on every status event.
+        "ref": str(payload["ref"])[:64] if payload.get("ref") else None,
+        "case_fold": bool(payload.get("caseFold", False)),
     }
 
 
@@ -198,8 +207,9 @@ async def serve_requests(transmitter: Transmitter, nc, station: str, subject_pre
     async for msg in sub.messages:
         try:
             req = parse_tx_request(json.loads(msg.data.decode("utf-8")))
-            result = await transmitter.transmit(req["blocks"], req["to"], message_id=req["message_id"], experiment_id=req["experiment_id"], session_id=req["session_id"])
-            out = {"ok": result.ok, "message_id": result.message_id, "to": result.to, "frames": result.frames, "sent": result.sent, "error": result.error}
+            result = await transmitter.transmit(req["blocks"], req["to"], message_id=req["message_id"], experiment_id=req["experiment_id"],
+                                                session_id=req["session_id"], ref=req["ref"], case_fold=req["case_fold"] or None)
+            out = {"ok": result.ok, "message_id": result.message_id, "to": result.to, "frames": result.frames, "sent": result.sent, "error": result.error, "ref": req["ref"]}
         except (TxRefused, ValueError) as e:
             out = {"ok": False, "error": str(e)}
         if msg.reply:
