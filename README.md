@@ -27,7 +27,7 @@ stdin / file ──────────────────────�
 ## Run
 
 ```bash
-pip install -e .[dev] && pytest                 # 136 tests: cross-implementation vectors, AX.25/KISS, spec examples
+pip install -e .[dev] && pytest                 # 147 tests: cross-implementation vectors, AX.25/KISS, spec examples, transmit against a fake JS8Call
 
 # On skywave (Docker, no host packages needed):
 docker compose -f deploy/compose.yml up -d --build          # RTL-SDR on 144.390 MHz (APRS), NATS from ~/.kannaka-nats.env
@@ -64,10 +64,10 @@ Environment: `RF_STATION` (identifier in `RF.station.<id>`), `RF_AUDIO` (`rtl` |
 | destination allowed (optional) | `RF_TX_ALLOWLIST=KANNAKA,W1AW` |
 | within the rate limit | `RF_TX_MAX_FRAMES_PER_10MIN=30` (default) |
 
-Also: `RF_TX_CASE_FOLD=1` for a case-folding path (frames are upper-cased before the CRC, per spec §2), `RF_TX_FRAME_TIMEOUT_S` (240), `RF_TX_GAP_S` (2). Requests arrive on NATS `RF.tx.<STATION>` as `{"to":"KANNAKA","blocks":[...],"experimentId":"rf-01","ref":"<correlation id>","caseFold":false}` (reply on the request's reply subject); progress is published on `RF.tx.<STATION>.status` (`start`, `frame_sent`, `complete`, `refused`, `timeout`, `error`), each event echoing `ref`. The Space Child Research Collective's `rf` channel is such a requester: it sets `ref` to its delivery id and marks the delivery acknowledged or failed from these events, and it turns anything heard on `RF.rx.>` that cites a finding's short id (`SC:xxxxxxxx`) into feedback. The station runs the transmitter alongside the JS8Call receive source (`RF_SOURCE=js8call`), so replies come back through the same loop.
+Also: `RF_TX_CASE_FOLD=1` for a case-folding path (frames are upper-cased before the CRC, per spec §2), `RF_TX_FRAME_TIMEOUT_S` (240), `RF_TX_GAP_S` (2). Requests arrive on NATS `RF.tx.<STATION>` as `{"to":"KANNAKA","blocks":[...],"experimentId":"rf-01","ref":"<correlation id>","caseFold":false}` (reply on the request's reply subject); progress is published on `RF.tx.<STATION>.status` (`start`, `frame_sent`, `complete`, `refused`, `timeout`, `error`), each event echoing `ref`. The Space Child Research Collective's `rf` channel is such a requester: it sets `ref` to its delivery id and marks the delivery acknowledged or failed from these events, and it turns anything heard on `RF.rx.>` that cites a finding's short id (`SC-xxxxxxxx`) into feedback. The station runs the transmitter alongside the JS8Call receive source (`RF_SOURCE=js8call`), so replies come back through the same loop.
 
 **Validation status:** the transmit path is verified against `tests/fake_js8call.py`, a protocol-faithful stand-in for JS8Call's API (request/response `_ID` correlation, `TX.TEXT`/`TX.FRAME` lifecycle, `RX.DIRECTED` loopback). It has **not yet been exercised against a real JS8Call instance and radio**; that happens in AE0RM's shack, on a frequency and under a callsign the control operator chooses.
 
 ## What comes next
 
-APRS transmit via Direwolf (needs PTT hardware and the same guard), and an `rf` channel in the Space Child Research Collective so vetted findings can be sent as frames and RF replies flow back as feedback. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.
+APRS transmit via Direwolf (needs PTT hardware and the same guard), and the first real-radio pass of the JS8Call driver. The Collective's `rf` channel already exists (findings out as frames, replies back as feedback); it is waiting on a station in transmit mode. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.
