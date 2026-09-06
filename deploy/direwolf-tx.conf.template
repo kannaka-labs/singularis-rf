@@ -1,0 +1,19 @@
+# Direwolf configuration — TRANSMIT-CAPABLE (APRS via a radio with a sound-card interface).
+# Rendered by run-rx.sh from the environment at container start, so MYCALL is always RF_CALLSIGN.
+# Variables: __MYCALL__ __ADEVICE__ __PTT__
+ADEVICE __ADEVICE__
+ARATE 44100
+ACHANNELS 1
+CHANNEL 0
+MYCALL __MYCALL__
+MODEM 1200
+# PTT: e.g. "PTT CM108" (USB sound-card GPIO), "PTT /dev/ttyUSB0 RTS", or omitted for VOX.
+__PTT__
+# The station connects here: KISS to send/hear frames, AGW to confirm its own transmissions ('T').
+KISSPORT 8001
+AGWPORT 8000
+# Transmit timing (ms): TXDELAY 30 = 300 ms of flags before data; DWAIT/SLOTTIME/PERSIST per Direwolf defaults.
+TXDELAY 30
+TXTAIL 10
+# No beacons, no digipeating, no IGate: this station only speaks when the Collective asks it to.
+LOGDIR /data/direwolf

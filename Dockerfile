@@ -13,7 +13,7 @@ COPY pyproject.toml README.md ./
 COPY spec ./spec
 COPY singularis_rf ./singularis_rf
 COPY tests ./tests
-COPY deploy/direwolf.conf deploy/run-rx.sh ./deploy/
+COPY deploy/direwolf.conf deploy/direwolf-tx.conf.template deploy/run-rx.sh ./deploy/
 COPY scripts ./scripts
 RUN chmod +x deploy/run-rx.sh scripts/*.sh && python3 -m pytest -q tests
 

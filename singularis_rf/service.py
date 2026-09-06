@@ -160,25 +160,46 @@ class Station:
             })
 
     async def start_transmitter(self) -> asyncio.Task | None:
-        """JS8Call transmit path — only when explicitly enabled, only alongside a JS8Call source."""
-        from .tx import TxPolicy, Transmitter, TxRefused, serve_requests
-        from .js8call import Js8CallClient, Js8CallError
+        """Transmit path — only when explicitly enabled. RF_TX_MODE selects the radio:
+        js8call (needs source=js8call) or aprs (Direwolf over KISS + AGW, needs source=kiss)."""
+        from .tx import TxPolicy, TxRefused, serve_requests
         policy = TxPolicy.from_env()
         if not policy.enabled:
             return None
-        if self.cfg.source != "js8call":
-            print("[tx] RF_TX_ENABLE is set but source is not js8call; transmit path not started", file=sys.stderr)
-            return None
-        client = Js8CallClient(self.cfg.js8_host, self.cfg.js8_port)
+        mode = os.environ.get("RF_TX_MODE", "js8call" if self.cfg.source == "js8call" else "aprs").lower()
+        tx: Any
         try:
-            await client.connect()
-            tx = Transmitter(self.spec, client, policy, station=self.cfg.station, publish=self.publish, subject_prefix=self.cfg.subject_prefix)
-            callsign = await tx.prepare()
-        except (TxRefused, Js8CallError, OSError) as e:
-            print(f"[tx] transmit path NOT armed: {e}", file=sys.stderr)
-            await client.close()
+            if mode == "js8call":
+                from .tx import Transmitter
+                from .js8call import Js8CallClient, Js8CallError
+                if self.cfg.source != "js8call":
+                    print("[tx] RF_TX_MODE=js8call needs RF_SOURCE=js8call; transmit path not started", file=sys.stderr)
+                    return None
+                client = Js8CallClient(self.cfg.js8_host, self.cfg.js8_port)
+                try:
+                    await client.connect()
+                    tx = Transmitter(self.spec, client, policy, station=self.cfg.station, publish=self.publish, subject_prefix=self.cfg.subject_prefix)
+                    callsign = await tx.prepare()
+                except (TxRefused, Js8CallError, OSError):
+                    await client.close()
+                    raise
+            elif mode == "aprs":
+                from .aprs_tx import AprsPolicy, AprsTransmitter
+                if self.cfg.source != "kiss":
+                    print("[tx] RF_TX_MODE=aprs needs RF_SOURCE=kiss (Direwolf); transmit path not started", file=sys.stderr)
+                    return None
+                agw_host, agw_port = os.environ.get("AGW_ADDR", f"{self.cfg.kiss_host}:8000").rsplit(":", 1)
+                tx = AprsTransmitter(self.spec, policy, AprsPolicy.from_env(os.environ), station=self.cfg.station,
+                                     kiss_host=self.cfg.kiss_host, kiss_port=self.cfg.kiss_port, agw_host=agw_host, agw_port=int(agw_port),
+                                     publish=self.publish, subject_prefix=self.cfg.subject_prefix)
+                callsign = await tx.prepare()
+            else:
+                print(f"[tx] unknown RF_TX_MODE={mode}; transmit path not started", file=sys.stderr)
+                return None
+        except (TxRefused, OSError, Exception) as e:  # noqa: BLE001 — never let the TX path take the receiver down
+            print(f"[tx] transmit path NOT armed ({mode}): {e}", file=sys.stderr)
             return None
-        print(f"[tx] armed as {callsign} (allowlist={sorted(policy.allowlist) or 'any'}, max {policy.max_frames_per_10min} frames/10min)", file=sys.stderr)
+        print(f"[tx] armed ({mode}) as {callsign} (allowlist={sorted(policy.allowlist) or 'any'}, max {policy.max_frames_per_10min} frames/10min)", file=sys.stderr)
         if self.nc is None:
             print("[tx] no NATS connection; transmit requests cannot be received", file=sys.stderr)
             return None

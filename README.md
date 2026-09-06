@@ -68,6 +68,16 @@ Also: `RF_TX_CASE_FOLD=1` for a case-folding path (frames are upper-cased before
 
 **Validation status:** the transmit path is verified against `tests/fake_js8call.py`, a protocol-faithful stand-in for JS8Call's API (request/response `_ID` correlation, `TX.TEXT`/`TX.FRAME` lifecycle, `RX.DIRECTED` loopback). It has **not yet been exercised against a real JS8Call instance and radio**; that happens in AE0RM's shack, on a frequency and under a callsign the control operator chooses.
 
+## Transmit — APRS via Direwolf (`RF_TX_MODE=aprs`)
+
+`singularis_rf/aprs_tx.py` sends each SP1 frame as one APRS message (`:ADDRESSEE:frame{n}`, ≤67 chars) inside an AX.25 UI frame from `RF_CALLSIGN` (tocall `APZSCC`, path `RF_APRS_PATH`, default `WIDE1-1`) to Direwolf over KISS; Direwolf keys the radio. Three things make it more than fire-and-forget:
+
+- **Transmit confirmation.** Direwolf's AGW port reports its own transmissions as `T` frames; the driver treats one as "on the air" and fails the frame if none arrives (`RF_APRS_TX_CONFIRM_S`, 20 s).
+- **APRS acknowledgements.** Directed messages carry `{n}` and wait for `ack n` from the addressee, retrying up to `RF_APRS_RETRIES` (3) every `RF_APRS_ACK_TIMEOUT_S` (30 s); a message to `*` goes to `ALL` with no ack expected. Incoming messages addressed to us with `{n}` are acked automatically (`RF_APRS_AUTO_ACK`).
+- **Identity by construction.** The guard requires `RF_CALLSIGN` to be a valid AX.25 callsign (≤6 chars, optional `-SSID`), and `run-rx.sh` renders Direwolf's `MYCALL` from the same variable, so the callsign in every frame's source field is the one that was checked. Same enable / allow-list / rate-limit guard as JS8Call.
+
+Radio setup: `RF_AUDIO=alsa RF_AUDIO_DEVICE=plughw:1,0 RF_PTT="CM108"` (or `/dev/ttyUSB0 RTS`, or empty for VOX) with the sound-card interface passed into the container (`--device /dev/snd`, plus the USB PTT device). Requests and status use the same `RF.tx.<STATION>` / `RF.tx.<STATION>.status` contract (status events carry `"mode":"aprs"` and `retry` events). Verified against `tests/fake_direwolf.py` (KISS + AGW monitor + an acking far-end station, lost-ack retries, missing-confirmation failure, auto-ack); **not yet on a real radio**.
+
 ## What comes next
 
-APRS transmit via Direwolf (needs PTT hardware and the same guard), and the first real-radio pass of the JS8Call driver. The Collective's `rf` channel already exists (findings out as frames, replies back as feedback); it is waiting on a station in transmit mode. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.
+The first real-radio pass of either transmit driver, in AE0RM's shack. The Collective's `rf` channel already exists (findings out as frames, replies back as feedback) and is waiting on a station in transmit mode. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.

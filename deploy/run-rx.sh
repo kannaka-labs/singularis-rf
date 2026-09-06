@@ -46,6 +46,23 @@ case "$RF_AUDIO" in
     ( sleep 3; sox "$RF_WAV" -t raw -r 22050 -e signed -b 16 -c 1 - ) | $DW &
     DW_PID=$!
     ;;
+  alsa)
+    # A real radio on a sound-card interface (ALSA device, e.g. plughw:1,0), receive AND transmit.
+    # Direwolf's MYCALL is rendered from RF_CALLSIGN so the licensed callsign on every AX.25 frame
+    # is the one the guard checked. PTT via RF_PTT ("CM108", "/dev/ttyUSB0 RTS") or VOX if empty.
+    : "${RF_AUDIO_DEVICE:?RF_AUDIO=alsa needs RF_AUDIO_DEVICE (ALSA device name)}"
+    MYCALL="${RF_CALLSIGN:-RXONLY}"
+    if [ "${RF_TX_ENABLE:-0}" = "1" ] && [ -z "${RF_CALLSIGN:-}" ]; then
+      echo "[run-rx] RF_TX_ENABLE=1 but RF_CALLSIGN is empty; Direwolf will not be allowed to transmit" >&2
+    fi
+    PTT_LINE=""
+    [ -n "${RF_PTT:-}" ] && PTT_LINE="PTT ${RF_PTT}"
+    sed -e "s|__MYCALL__|${MYCALL}|" -e "s|__ADEVICE__|${RF_AUDIO_DEVICE}|" -e "s|__PTT__|${PTT_LINE}|" \
+      /app/deploy/direwolf-tx.conf.template > /data/direwolf-tx.conf
+    echo "[run-rx] direwolf on ${RF_AUDIO_DEVICE} as ${MYCALL} (PTT: ${RF_PTT:-VOX}), KISS 8001 + AGW 8000" >&2
+    direwolf -c /data/direwolf-tx.conf -t 0 -q hd &
+    DW_PID=$!
+    ;;
   none)
     echo "[run-rx] no audio chain; station source=${RF_SOURCE}" >&2
     ;;
