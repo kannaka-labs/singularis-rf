@@ -81,3 +81,7 @@ Radio setup: `RF_AUDIO=alsa RF_AUDIO_DEVICE=plughw:1,0 RF_PTT="CM108"` (or `/dev
 ## What comes next
 
 The first real-radio pass of either transmit driver, in AE0RM's shack. The Collective's `rf` channel already exists (findings out as frames, replies back as feedback) and is waiting on a station in transmit mode. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.
+
+## License
+
+[Space Child License v1.0](https://legal.spacechild.love/license) — source-available and peace-conditional: free for peaceful, humanitarian, commercial and defensive use; withheld for the uses in its Peace Clause. See `LICENSE` and `NOTICE`.
