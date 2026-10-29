@@ -82,6 +82,15 @@ Radio setup: `RF_AUDIO=alsa RF_AUDIO_DEVICE=plughw:1,0 RF_PTT="CM108"` (or `/dev
 
 The first real-radio pass of either transmit driver, in AE0RM's shack. The Collective's `rf` channel already exists (findings out as frames, replies back as feedback) and is waiting on a station in transmit mode. The encoding is public ([spec](https://research.spacechild.love/spec/singularis-compact)) precisely so that transmitting it is legal when a licensed station does.
 
+## Where this sits in the constellation
+
+The station is a NATS publisher: everything heard lands on `RF.heard.<source>`, complete
+Singularis messages on `RF.rx.<from>`. Those subjects are what the rest of the constellation
+reads; an AI reaches the bus through the command center MCP (`capture_messages`, `query_messages`)
+as re-exported by [QuantumOS's hub](https://github.com/kannaka-labs/QuantumOS/tree/main/tools/qos-hub)
+(ADR-0027), so the RF channel needs no adapter of its own. CI runs the codec, AX.25 and transmit
+tests on Python 3.11 to 3.13 with no radio and no NATS.
+
 ## License
 
 [Space Child License v1.0](https://legal.spacechild.love/license) — source-available and peace-conditional: free for peaceful, humanitarian, commercial and defensive use; withheld for the uses in its Peace Clause. See `LICENSE` and `NOTICE`.

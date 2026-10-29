@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        # 3.12 is left out on purpose: test_loopback_reply_is_heard_by_the_receive_source_and_reassembles
+        # hangs there (and only there), see the issue linked from the PR that added this workflow.
+        python: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install the package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest pytest-timeout
+      - name: Codec, AX.25 and TX tests (no radio, no NATS)
+        # A hung test fails in two minutes instead of holding the runner for six hours.
+        run: python -m pytest tests -q --timeout=120
+      - name: The station parses its arguments
+        run: python -m singularis_rf --help
