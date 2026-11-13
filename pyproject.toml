@@ -22,3 +22,8 @@ packages = ["singularis_rf"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[project.urls]
+Homepage = "https://github.com/NickFlach/singularis-rf"
+Repository = "https://github.com/NickFlach/singularis-rf"
+Issues = "https://github.com/NickFlach/singularis-rf/issues"
