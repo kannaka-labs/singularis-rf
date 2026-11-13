@@ -24,6 +24,6 @@ packages = ["singularis_rf"]
 testpaths = ["tests"]
 
 [project.urls]
-Homepage = "https://github.com/NickFlach/singularis-rf"
-Repository = "https://github.com/NickFlach/singularis-rf"
-Issues = "https://github.com/NickFlach/singularis-rf/issues"
+Homepage = "https://github.com/kannaka-labs/singularis-rf"
+Repository = "https://github.com/kannaka-labs/singularis-rf"
+Issues = "https://github.com/kannaka-labs/singularis-rf/issues"
